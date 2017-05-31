@@ -1,20 +1,12 @@
 <?php
-    
-    require_once __DIR__.'/../vendor/autoload.php';
-    
-    $app = new Silex\Application();
-    
-    $app->register(new Silex\Provider\TwigServiceProvider(), array(
 
-   'twig.path' => dirname(__DIR__) . "/CHEMIN_HTML",
+require_once __DIR__.'/../vendor/autoload.php';
 
-    ));
-    
-    $app->get('/', function () {
-        return 'Bonjour';
-    });
-    
-    
+$app = new Silex\Application();
 
-    $app->run();
-?>
+// enable the debug mode
+$app['debug'] = true;
+
+require __DIR__.'/../app/routes.php';
+
+$app->run();
