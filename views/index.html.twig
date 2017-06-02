@@ -1,44 +1,14 @@
-<!doctype html>
-<html>
+    {% extends "layout.html.twig" %}
 
-    <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="{{ asset('/lib/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('/css/blogecrivain.css') }}" rel="stylesheet" />
-    <title>Un billet pour l'Alaska</title>
-</head>
+    {% block title %}Home{% endblock %}
 
-<body>
-    
-   <div class="container">
-        <nav class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation">
-            <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-target">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="">Un billet pour l'Alaska</a>
-                </div>
-                <div class="collapse navbar-collapse" id="navbar-collapse-target">
-                </div>
-            </div><!-- /.container -->
-        </nav>
-    
-        {% for billet in billets %}
+    {% block content %}
+    {% for billet in billets %}
         <article>
-            <h2>{{billet.BilletTitle}}</h2>
+            <h2><a class="billetTitle" href="{{ path('billet', { 'billet_id': billet.BilletId }) }}">{{billet.BilletTitle}} </a></h2>
             <p>{{billet.BilletContent}}</p>
             <p class = "date">{{billet.BilletDate}}</p>
         </article>
-        {% endfor %}
+    {% endfor %}
 
-        <footer class="footer">
-            Un billet pour l'Alaska - blog de Jean Forteroche
-        </footer>
-    </div>
-</body>
-</html>
+    {% endblock %}

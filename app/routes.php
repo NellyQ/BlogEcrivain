@@ -4,9 +4,11 @@
 $app->get('/', function () use ($app) {
     $billets = $app['dao.billet']->findAll();
      return $app['twig']->render('index.html.twig', array('billets' => $billets));
+    })->bind('home');
 
-    ob_start();             // start buffering HTML output
-    require '../views/view.php';
-    $view = ob_get_clean(); // assign HTML output to $view
-    return $view;
-});
+// Article details with comments
+$app->get('/billet/{billet_id}', function ($billet_id) use ($app) {
+    $billet = $app['dao.billet']->find($billet_id);
+    $comments = $app['dao.comment']->findAllByArticle($billet_id);
+    return $app['twig']->render('billet.html.twig', array('billet' => $billet, 'comments' => $comments));
+})->bind('billet');
