@@ -48,6 +48,7 @@ class BilletDAO
         $billet->setBilletId($row['billet_id']);
         $billet->setBilletTitle($row['billet_title']);
         $billet->setBilletContent($row['billet_content']);
+        $billet->setBilletDate($row['billet_date']);
         return $billet;
     }
 }
