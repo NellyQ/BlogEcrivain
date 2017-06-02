@@ -13,13 +13,13 @@
         <h1>Un billet pour l'Alaska</h1>
     </header>
     
-    <?php foreach ($billets as $billet): ?>
+    {% for billet in billets %}
     <article>
-        <h2><?php echo $billet->getBilletTitle() ?></h2>
-        <p><?php echo $billet->getBilletContent() ?></p>
-        <p class = "date"><?php echo $billet->getBilletDate() ?></p>
+        <h2>{{billet.BilletTitle}}</h2>
+        <p>{{billet.BilletContent}}</p>
+        <p class = "date">{{billet.BilletDate}}</p>
     </article>
-    <?php endforeach ?>
+    {% endfor %}
     
     <footer class="footer">
         Un billet pour l'Alaska - blog de Jean Forteroche
