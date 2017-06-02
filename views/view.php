@@ -15,9 +15,9 @@
     
     <?php foreach ($billets as $billet): ?>
     <article>
-        <h2><?php echo $billet['billet_title'] ?></h2>
-        <p><?php echo $billet['billet_content'] ?></p>
-        <p class = "date"><?php echo $billet['billet_date'] ?></p>
+        <h2><?php echo $billet->getBilletTitle() ?></h2>
+        <p><?php echo $billet->getBilletContent() ?></p>
+        <p class = "date"><?php echo $billet->getBilletDate() ?></p>
     </article>
     <?php endforeach ?>
     
