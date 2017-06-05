@@ -39,6 +39,39 @@ class BilletDAO extends DAO
         else
             throw new \Exception("No article matching id " . $billet_id);
     }
+    
+    /**
+     * Saves an article into the database.
+     *
+     * @param \MicroCMS\Domain\Article $article The article to save
+     */
+    public function save(Billet $billet) {
+        $billetData = array(
+            'billet_title' => $billet->getBilletTitle(),
+            'billet_content' => $billet->getBilletContent(),
+            );
+
+        if ($billet->getBilletId()) {
+            // The article has already been saved : update it
+            $this->getDb()->update('billets', $billetData, array('billet_id' => $billet->getBilletId()));
+        } else {
+            // The article has never been saved : insert it
+            $this->getDb()->insert('billets', $billetData);
+            // Get the id of the newly created article and set it on the entity.
+            $billet_id = $this->getDb()->lastInsertId();
+            $billet->setBilletId($billet_id);
+        }
+    }
+
+    /**
+     * Removes an article from the database.
+     *
+     * @param integer $id The article id.
+     */
+    public function delete($billet_id) {
+        // Delete the article
+        $this->getDb()->delete('billets', array('billet_id' => $billet_id));
+    }
 
     /**Creates an Billet object based on a DB row.
      *
@@ -50,7 +83,6 @@ class BilletDAO extends DAO
         $billet->setBilletId($row['billet_id']);
         $billet->setBilletTitle($row['billet_title']);
         $billet->setBilletContent($row['billet_content']);
-        $billet->setBilletDate($row['billet_date']);
         return $billet;
     }
 }

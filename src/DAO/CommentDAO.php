@@ -74,6 +74,29 @@ class CommentDAO extends DAO
         }
     }
     
+     public function findAll() {
+        $sql = "select * from comments order by com_id desc";
+        $result = $this->getDb()->fetchAll($sql);
+
+        // Convert query result to an array of domain objects
+        $entities = array();
+        foreach ($result as $row) {
+            $id = $row['com_id'];
+            $entities[$id] = $this->buildDomainObject($row);
+        }
+        return $entities;
+    }
+    
+     /**
+     * Removes all comments for a billet
+     *
+     * @param $billetId The id of the billet
+     */
+    public function deleteAllByArticle($billetId) {
+        $this->getDb()->delete('comments', array('billet_id' => $billetId));
+    }
+    
+    
 
     /** Creates an Comment object based on a DB row.
      *

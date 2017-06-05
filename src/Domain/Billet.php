@@ -20,7 +20,7 @@ class Billet
      *
      * @var string
      */
-    private $billlet_content;
+    private $billet_content;
 
      /**Billet date.
      *
