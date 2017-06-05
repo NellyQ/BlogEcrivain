@@ -12,7 +12,7 @@ class Comment
 
     /**Comment author.
      *
-     * @var string
+     * @var \BlogEcrivain\Domain\User
      */
     private $com_author;
 
@@ -41,7 +41,7 @@ class Comment
         return $this->com_author;
     }
 
-    public function setComAuthor($com_author) {
+    public function setComAuthor(User $com_author) {
         $this->com_author = $com_author;
         return $this;
     }

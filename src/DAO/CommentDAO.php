@@ -9,24 +9,33 @@ class CommentDAO extends DAO
     /*** @var \BlogEcrivain\DAO\BilletDAO
      */
     private $billetDAO;
+    
+    /**
+     * @var \BlogEcrivain\DAO\UserDAO
+     */
+    private $userDAO;
 
     public function setBilletDAO(BilletDAO $billetDAO) {
         $this->billetDAO = $billetDAO;
     }
 
-    /** Return a list of all comments for an article, sorted by date (most recent last).
+    public function setUserDAO(UserDAO $userDAO) {
+        $this->userDAO = $userDAO;
+    }
+    
+    /** Return a list of all comments for a billet, sorted by date (most recent last).
      *
-     * @param integer $billetId The article id.
+     * @param integer $billetId The billet id.
      *
-     * @return array A list of all comments for the article.
+     * @return array A list of all comments for the billet.
      */
     public function findAllByArticle($billetId) {
         // The associated article is retrieved only once
         $billet = $this->billetDAO->find($billetId);
 
         // billet_id is not selected by the SQL query
-        // The article won't be retrieved during domain objet construction
-        $sql = "select com_id, com_content, com_author from comments where billet_id=? order by com_id";
+        // The billet won't be retrieved during domain objet construction
+        $sql = "select com_id, com_content, user_id from comments where billet_id=? order by com_id";
         $result = $this->getDb()->fetchAll($sql, array($billetId));
 
         // Convert query result to an array of domain objects
@@ -50,13 +59,19 @@ class CommentDAO extends DAO
         $comment = new Comment();
         $comment->setComId($row['com_id']);
         $comment->setComContent($row['com_content']);
-        $comment->setComAuthor($row['com_author']);
-
+        
         if (array_key_exists('billet_id', $row)) {
             // Find and set the associated article
             $billetId = $row['billet_id'];
             $billet = $this->billetDAO->find($billetId);
             $comment->setBillet($billet);
+        }
+        
+        if (array_key_exists('user_id', $row)) {
+            // Find and set the associated author
+            $userId = $row['user_id'];
+            $user = $this->userDAO->find($userId);
+            $comment->setComAuthor($user);
         }
         
         return $comment;
