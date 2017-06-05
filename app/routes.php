@@ -1,6 +1,8 @@
 <?php
 
 use Symfony\Component\HttpFoundation\Request;
+use BlogEcrivain\Domain\Comment;
+use BlogEcrivain\Form\Type\CommentType;
 
 // Home page
 $app->get('/', function () use ($app) {
@@ -9,11 +11,32 @@ $app->get('/', function () use ($app) {
     })->bind('home');
 
 // Article details with comments
-$app->get('/billet/{billet_id}', function ($billet_id) use ($app) {
+$app->match('/billet/{billet_id}', function ($billet_id, Request $request) use ($app) {
     $billet = $app['dao.billet']->find($billet_id);
+    $commentFormView = null;
+    
+    if ($app['security.authorization_checker']->isGranted('IS_AUTHENTICATED_FULLY')) {
+        // A user is fully authenticated : he can add comments
+        $comment = new Comment();
+        $comment->setBillet($billet);
+        $user = $app['user'];
+        $comment->setComAuthor($user);
+        $commentForm = $app['form.factory']->create(CommentType::class, $comment);
+        $commentForm->handleRequest($request);
+        if ($commentForm->isSubmitted() && $commentForm->isValid()) {
+            $app['dao.comment']->save($comment);
+            $app['session']->getFlashBag()->add('success', 'Your comment was successfully added.');
+        }
+        $commentFormView = $commentForm->createView();
+    }
     $comments = $app['dao.comment']->findAllByArticle($billet_id);
-    return $app['twig']->render('billet.html.twig', array('billet' => $billet, 'comments' => $comments));
+        
+    return $app['twig']->render('billet.html.twig', array(
+        'billet' => $billet, 
+        'comments' => $comments,
+        'commentForm' => $commentFormView));
 })->bind('billet');
+
 
 // Login form
 $app->get('/login', function(Request $request) use ($app) {
