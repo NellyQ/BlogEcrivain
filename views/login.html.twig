@@ -1,12 +1,12 @@
 {% extends 'layout.html.twig' %}
 
-{% block title %}User authentication{% endblock %}
+{% block title %}Je m'identifie{% endblock %}
 
 {% block content %}
 <h2 class="text-center">{{ block('title') }}</h2>
 {% if error %}
 <div class="alert alert-danger">
-    <strong>Login failed!</strong> {{ error }}
+    <strong>Votre identifiant ou votre mot de passe sont incorrects ! Veuillez réessayer.</strong>
 </div>
 {% endif %}
 <div class="well">
@@ -23,7 +23,7 @@
         </div>
         <div class="form-group">
             <div class="col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
-                <button type="submit" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-log-in"></span> Login</button>
+                <button type="submit" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-log-in"></span> Se connecter</button>
             </div>
         </div>
     </form>

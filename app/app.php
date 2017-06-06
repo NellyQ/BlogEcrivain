@@ -29,6 +29,17 @@ $app->register(new Silex\Provider\SecurityServiceProvider(), array(
             },
         ),
     ),
+    'security.firewalls' => array(
+        'secured' => array(
+            'pattern' => '^/',
+            'anonymous' => true,
+            'logout' => true,
+            'form' => array('register_path' => '/register', 'check_path' => '/login_check'),
+            'users' => function () use ($app) {
+                return new BlogEcrivain\DAO\UserDAO($app['db']);
+            },
+        ),
+    ),
     'security.role_hierarchy' => array(
         'ROLE_ADMIN' => array('ROLE_USER'),
     ),

@@ -50,6 +50,29 @@ $app->get('/login', function(Request $request) use ($app) {
     ));
 })->bind('login');
 
+// Register form
+$app->match('/register', function(Request $request) use ($app) {
+    $user = new User();
+    $userForm = $app['form.factory']->create(UserType::class, $user);
+    $userForm->handleRequest($request);
+    if ($userForm->isSubmitted() && $userForm->isValid()) {
+        // generate a random salt value
+        $salt = substr(md5(time()), 0, 23);
+        $user->setSalt($salt);
+        $plainPassword = $user->getPassword();
+        // find the default encoder
+        $encoder = $app['security.encoder.bcrypt'];
+        // compute the encoded password
+        $password = $encoder->encodePassword($plainPassword, $user->getSalt());
+        $user->setPassword($password); 
+        $app['dao.user']->save($user);
+        $app['session']->getFlashBag()->add('success', 'The user was successfully created.');
+    }
+    return $app['twig']->render('register.html.twig', array(
+        'title' => 'New user',
+        'userForm' => $userForm->createView()));
+})->bind('register');
+
 // Admin home page
 $app->get('/admin', function() use ($app) {
     $billets = $app['dao.billet']->findAll();

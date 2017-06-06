@@ -33,17 +33,18 @@
                         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                             <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <span class="glyphicon glyphicon-user"></span> Welcome, {{ app.user.username }} <b class="caret"></b></a>
+                                <span class="glyphicon glyphicon-user"></span> Bonjour, {{ app.user.username }} <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="{{ path('logout') }}">Log out</a></li>
+                                    <li><a href="{{ path('logout') }}">Se déconnecter</a></li>
                                 </ul>
                             </li>
                         {% else %}
                             <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <span class="glyphicon glyphicon-user"></span> Not connected <b class="caret"></b></a>
+                                <span class="glyphicon glyphicon-user"></span> Connexion <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="{{ path('login') }}">Log in</a></li>
+                                    <li><a href="{{ path('login') }}">S'identifier</a></li>
+                                    <li><a href="{{ path('register') }}">S'inscrire</a></li>
                                 </ul>
                             </li>
                         {% endif %}

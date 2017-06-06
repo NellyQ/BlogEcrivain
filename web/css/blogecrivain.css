@@ -26,3 +26,8 @@ h1 {
     margin-top: 20px;
     margin-bottom: 20px;
 }
+
+div#hiddenrole.form-group {
+    visibility : hidden;
+
+}
