@@ -96,6 +96,43 @@ class CommentDAO extends DAO
         $this->getDb()->delete('comments', array('billet_id' => $billetId));
     }
     
+    /**
+     * Returns a comment matching the supplied id.
+     *
+     * @param integer $id The comment id
+     *
+     * @return \BlogEcrivain\Domain\Comment|throws an exception if no matching comment is found
+     */
+    public function find($com_id) {
+        $sql = "select * from comments where com_id=?";
+        $row = $this->getDb()->fetchAssoc($sql, array($com_id));
+
+        if ($row)
+            return $this->buildDomainObject($row);
+        else
+            throw new \Exception("No comment matching id " . $com_id);
+    }
+
+    // ...
+
+    /**
+     * Removes a comment from the database.
+     *
+     * @param @param integer $id The comment id
+     */
+    public function delete($com_id) {
+        // Delete the comment
+        $this->getDb()->delete('comments', array('com_id' => $com_id));
+    }
+
+    /**
+     * Removes all comments for a user
+     *
+     * @param integer $userId The id of the user
+     */
+    public function deleteAllByUser($userId) {
+        $this->getDb()->delete('comments', array('user_id' => $userId));
+    }
     
 
     /** Creates an Comment object based on a DB row.

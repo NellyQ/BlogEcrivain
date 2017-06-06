@@ -78,6 +78,43 @@ class UserDAO extends DAO implements UserProviderInterface
         }
         return $entities;
     }
+    
+    /**
+     * Saves a user into the database.
+     *
+     * @param \MicroCMS\Domain\User $user The user to save
+     */
+    public function save(User $user) {
+        $userData = array(
+            'user_name' => $user->getUsername(),
+            'user_salt' => $user->getSalt(),
+            'user_password' => $user->getPassword(),
+            'user_role' => $user->getRole()
+            );
+
+        if ($user->getId()) {
+            // The user has already been saved : update it
+            $this->getDb()->update('users', $userData, array('user_id' => $user->getId()));
+        } else {
+            // The user has never been saved : insert it
+            $this->getDb()->insert('users', $userData);
+            // Get the id of the newly created user and set it on the entity.
+            $id = $this->getDb()->lastInsertId();
+            $user->setId($id);
+        }
+    }
+
+    /**
+     * Removes a user from the database.
+     *
+     * @param @param integer $id The user id.
+     */
+    public function delete($id) {
+        // Delete the user
+        $this->getDb()->delete('users', array('user_id' => $id));
+    }
+
+    
 
     /**
      * Creates a User object based on a DB row.
