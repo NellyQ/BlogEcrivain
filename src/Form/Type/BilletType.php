@@ -23,8 +23,8 @@ class BilletType extends AbstractType
                         ))),
             ))
             ->add('billet_content', TextareaType::class, array(
-                    'required'    => true,
-                    'constraints' => new Assert\NotBlank(),
+                    'required'    => false,
+                    'attr' => array('class' => 'tinymce')                            
             ));
             
     }

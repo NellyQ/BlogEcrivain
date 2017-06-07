@@ -28,7 +28,7 @@ class BilletDAO extends DAO
      *
      * @param integer $id
      *
-     * @return \MicroCMS\Domain\Article|throws an exception if no matching article is found
+     * @return \BlogEcrivain\Domain\Article|throws an exception if no matching article is found
      */
     public function find($billet_id) {
         $sql = "select * from billets where billet_id=?";
@@ -43,7 +43,7 @@ class BilletDAO extends DAO
     /**
      * Saves an article into the database.
      *
-     * @param \MicroCMS\Domain\Article $article The article to save
+     * @param \BlogEcrivain\Domain\Article $article The article to save
      */
     public function save(Billet $billet) {
         $billetData = array(

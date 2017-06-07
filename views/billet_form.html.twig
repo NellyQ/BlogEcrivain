@@ -5,7 +5,7 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block content %}
-    <h2 class="text-center">{{ block('title') }}</h2>
+    <h2 class="text-center">Nouveau billet</h2>
     {% for flashMessage in app.session.flashbag.get('success') %}
         <div class="alert alert-success">
             {{ flashMessage }}
@@ -15,17 +15,18 @@
     <div class="well">
         {{ form_start(billetForm) }}
         
-        {{ form_row(billetForm.billet_title) }}                   
+        {{ form_row(billetForm.billet_title,{ 'label': 'Titre du billet :' }) }}                  
         {{ form_widget(billetForm.billet_title) }}
 
-        {{ form_row(billetForm.billet_content) }}
+        {{ form_row(billetForm.billet_content,{ 'label': 'Contenu :' }) }}
         {{ form_widget(billetForm.billet_content) }}
 
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-3">
-                <input type="submit" class="btn btn-primary" value="Save" />
+                <input type="submit" class="btn btn-primary" value="Enregistrer" />
             </div>
         </div>
         {{ form_end(billetForm) }}
     </div>
 {% endblock %}
+

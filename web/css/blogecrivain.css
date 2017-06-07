@@ -31,3 +31,7 @@ div#hiddenrole.form-group {
     visibility : hidden;
 
 }
+
+div.lieninscription {
+    text-align: center;
+}

@@ -6,8 +6,7 @@
     {% for billet in billets %}
         <article>
             <h2><a class="billetTitle" href="{{ path('billet', { 'billet_id': billet.BilletId }) }}">{{billet.BilletTitle}} </a></h2>
-            <p>{{billet.BilletContent}}</p>
-            <p class = "date">{{billet.BilletDate}}</p>
+            <p>{{billet.BilletContent | raw }} </p>
         </article>
     {% endfor %}
 

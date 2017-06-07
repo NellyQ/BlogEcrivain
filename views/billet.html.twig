@@ -5,16 +5,16 @@
 {% block content %}
 <p>
     <h2>{{ billet.BilletTitle }}</h2>
-    <p>{{ billet.BilletContent }}</p>
+    <p>{{ billet.BilletContent | raw }} </p>
     
-    <h3>Comments</h3>
+    <h3>Commentaires</h3>
     {% for comment in comments %}
-        <strong>{{ comment.ComAuthor.username }}</strong> said : {{ comment.ComContent }}<br>
+        <strong>{{ comment.ComAuthor.username }}</strong> dit : {{ comment.ComContent }}<br>
     {% else %}
-        No comments yet.
+       Il n'y a pas encore de commentaire.
     {% endfor %}
 
-    <h3>Add a comment</h3>
+    <h3>Ajouter un commentaire</h3>
     {% if commentForm %}
         {{ form_start(commentForm) }}
             <div class="form-group">
@@ -22,11 +22,11 @@
                 {{ form_widget(commentForm.com_content, { 'attr':  {
                     'rows': '4',
                     'class': 'form-control',
-                    'placeholder': 'Enter your comment'
+                    'placeholder': 'Entrer votre commentaire'
                 }}) }}
             </div>
             <div class="form-group">
-                <input type="submit" class="btn btn-primary" value="Publish comment" />
+                <input type="submit" class="btn btn-primary" value="Publier un commentaire" />
             </div>
         {{ form_end(commentForm) }}
         {% for flashMessage in app.session.flashbag.get('success') %}
@@ -36,7 +36,7 @@
         {% endfor %} 
 
     {% else %}
-        <a href="{{ path('login') }} ">Log in</a> to add comments.
+        <a href="{{ path('login') }} ">Se connecter</a> pour ajouter des commentaires.
     {% endif %}
 </p>
 {% endblock %}
