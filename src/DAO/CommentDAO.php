@@ -35,7 +35,7 @@ class CommentDAO extends DAO
 
         // billet_id is not selected by the SQL query
         // The billet won't be retrieved during domain objet construction
-        $sql = "select com_id, com_content, user_id from comments where billet_id=? order by com_id";
+        $sql = "select com_id, com_content, com_author from comments where billet_id=? order by com_id";
         $result = $this->getDb()->fetchAll($sql, array($billetId));
 
         // Convert query result to an array of domain objects
@@ -50,6 +50,21 @@ class CommentDAO extends DAO
         return $comments;
     }
     
+    /** Return a count of all comments for a billet.
+     *
+     *
+     * @return A count of all comments for the billet.
+     */
+    public function countAllByArticle($billetId) {
+        // The associated article is retrieved only once
+        $billet = $this->billetDAO->find($billetId);
+        
+        $sql = "SELECT COUNT(*) AS nb_comment FROM comments WHERE billet_id = ?";
+        $result = $this->getDb()->fetchAssoc($sql, array($billetId));
+        return $result['nb_comment'];
+    }
+
+    
     /**
      * Saves a comment into the database.
      *
@@ -58,7 +73,7 @@ class CommentDAO extends DAO
     public function save(Comment $comment) {
         $commentData = array(
             'billet_id' => $comment->getBillet()->getBilletId(),
-            'user_id' => $comment->getComAuthor()->getId(),
+            'com_author' => $comment->getComAuthor(),
             'com_content' => $comment->getComContent()
             );
 
@@ -144,6 +159,8 @@ class CommentDAO extends DAO
         $comment = new Comment();
         $comment->setComId($row['com_id']);
         $comment->setComContent($row['com_content']);
+        $comment->setComAuthor($row['com_author']);
+        
         
         if (array_key_exists('billet_id', $row)) {
             // Find and set the associated article
