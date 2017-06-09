@@ -7,6 +7,7 @@
         <article>
             <h2><a class="billetTitle" href="{{ path('billet', { 'billet_id': billet.BilletId }) }}">{{billet.BilletTitle}} </a></h2>
             <p>{{billet.BilletContent | raw }} </p>
+            <p id="nombreCom"><a class="billetTitle" href="{{ path('billet', { 'billet_id': billet.BilletId }) }}">commentaire(s)</a></p>
         </article>
     {% endfor %}
 

@@ -9,7 +9,7 @@
     
     <h3>Commentaires</h3>
     {% for comment in comments %}
-        <strong>{{ comment.ComAuthor.username }}</strong> dit : {{ comment.ComContent }}<br>
+        <strong>{{ comment.ComAuthor }}</strong> dit : {{ comment.ComContent }}<br>
     {% else %}
        Il n'y a pas encore de commentaire.
     {% endfor %}
@@ -17,7 +17,11 @@
     <h3>Ajouter un commentaire</h3>
     {% if commentForm %}
         {{ form_start(commentForm) }}
-            <div class="form-group">
+            <div class="form-group">               
+                {{ form_widget(commentForm.com_author, { 'attr':  {
+                    'class': 'form-control',
+                    'placeholder': 'Entrer votre pseudo'
+                }}) }}
                 {{ form_errors(commentForm.com_content) }}
                 {{ form_widget(commentForm.com_content, { 'attr':  {
                     'rows': '4',

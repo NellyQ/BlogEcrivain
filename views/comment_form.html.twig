@@ -13,11 +13,15 @@
 
 <div class="well">
 {{ form_start(commentForm, { 'attr': {'class': 'form-horizontal'} }) }}
+    
     <div class="form-group">
+        
+        
         {{ form_label(commentForm.com_content, null, { 'label_attr':  {
             'class': 'col-sm-4 control-label'
         }}) }}
         <div class="col-sm-6">
+           
             {{ form_errors(commentForm.com_content) }}
             {{ form_widget(commentForm.com_content, { 'attr':  {
                 'class': 'form-control',
