@@ -22,11 +22,7 @@ class Billet
      */
     private $billet_content;
 
-     /**Billet date.
-     *
-     * @var date
-     */
-    private $billet_date;
+    
 
     public function getBilletId() {
         return $this->billet_id;
@@ -55,12 +51,4 @@ class Billet
         return $this;
     }
 
-    public function getBilletDate() {
-        return $this->billet_date;
-    }
-
-    public function setBilletDate($billet_date) {
-        $this->billet_date = $billet_date;
-        return $this;
-    }
 }

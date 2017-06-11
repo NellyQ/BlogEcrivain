@@ -52,6 +52,7 @@ class CommentDAO extends DAO
     
     /** Return a count of all comments for a billet.
      *
+     * @param integer $billetId The billet id.
      *
      * @return A count of all comments for the billet.
      */
@@ -61,7 +62,7 @@ class CommentDAO extends DAO
         
         $sql = "SELECT COUNT(*) AS nb_comment FROM comments WHERE billet_id = ?";
         $result = $this->getDb()->fetchAssoc($sql, array($billetId));
-        return $result['nb_comment'];
+        return $result['nb_comment'];    
     }
 
     

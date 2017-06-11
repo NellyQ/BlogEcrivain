@@ -27,6 +27,12 @@ class Comment
      * @var \BlogEcrivain\Domain\Article
      */
     private $billet;
+    
+    /**Number of comment.
+     *
+     * @var integer
+     */
+    private $nb_comment;
 
     public function getComId() {
         return $this->com_id;
@@ -61,6 +67,15 @@ class Comment
 
     public function setBillet($billet) {
         $this->billet = $billet;
+        return $this;
+    }
+    
+    public function getNbComment() {
+        return $this->nb_comment;
+    }
+
+    public function setNbComment($billet) {
+        $this-> nb_comment = $nb_comment;
         return $this;
     }
 }

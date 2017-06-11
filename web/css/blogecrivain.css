@@ -1,26 +1,118 @@
+/*Loading custom font*/
+@font-face {
+    font-family: 'latin_modern_mono10_regular';
+    src: url('police/lmmono10-regular-webfont.eot');
+    src: url('police/lmmono10-regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('police/lmmono10-regular-webfont.woff') format('woff'),
+         url('police/lmmono10-regular-webfont.ttf') format('truetype'),
+         url('police/lmmono10-regular-webfont.svg#latin_modern_mono10_regular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
 body { 
     padding-top: 50px; 
+    font-family: 'latin_modern_mono10_regular', "Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 
-h1 {
-    text-align : center;
-    font-size : 2em;
+
+/*Display format of the navbar*/
+.navbar-inverse {
+    background : url("images/fondpapier.jpg");
+    border-color: #FFFFFF;
 }
 
-.date {
-    
-    font-size : 0.8em;
+a.navbar-brand {
+    color : black;
+    font-size: 1.6em;
 }
 
-.footer {
-    border-top: 1px solid #ccc;
-    padding-top: 10px;
-    text-align: center;
+.navbar-inverse .navbar-brand {
+    color: black;
+}
+
+.navbar-inverse .navbar-toggle .icon-bar {
+    background-color: black;
+}
+
+.navbar-default .navbar-toggle:hover,
+.navbar-default .navbar-toggle:focus {
+  background-color: #ECD9C5;
+  }
+
+.navbar-inverse .navbar-nav > li > a {
+    color : black;
+}
+.navbar-inverse .navbar-nav > .open > a:focus, .navbar-inverse .navbar-nav > .open > a:hover {
+    color: black;
+    background-color: transparent;
+}
+
+.navbar-inverse .navbar-nav .open .dropdown-menu > li > a {
+    color: black;
+}
+
+
+/*Display format of the Billets*/
+.billetTitle {
+    color : #C8AC8E;
 }
 
 .billetTitle:hover, .billetTitle:focus {
     text-decoration: none;
+    color : black;
 }
+
+article {
+    border-top: 1px solid #ccc;
+}
+
+p#nombreCom {
+    font-size : 0.9em;
+    text-align: right;
+}
+
+/*Display format billet details*/
+h2 {
+    color : #C8AC8E;
+}
+
+h3 {
+    font-size: 1.5em;
+    color : #C8AC8E;
+}
+
+.btn-primary {
+    background-color: #C8AC8E;
+    border-color:  #C8AC8E;
+}
+
+.btn-primary:focus,
+.btn-primary.focus,
+.btn-primary:hover {
+    background-color: #AA8760;
+    border-color: #AA8760;
+}
+
+/*Display format login*/
+.form-control:focus {
+    border-color: #AA8760;
+}
+
+div.lieninscription a {
+    color : #AA8760;
+}
+
+/*Display format footer*/
+.footer {
+    border-top: 1px solid #ccc;
+    padding-top: 10px;
+    text-align: center;
+    margin-top: 40px;
+}
+
+
 
 .adminTable {
     margin-top: 20px;
@@ -35,3 +127,4 @@ div#hiddenrole.form-group {
 div.lieninscription {
     text-align: center;
 }
+

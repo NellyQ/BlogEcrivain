@@ -8,23 +8,22 @@ use BlogEcrivain\Form\Type\CommentType;
 use BlogEcrivain\Form\Type\BilletType;
 use BlogEcrivain\Form\Type\UserType;
 
+
 // Home page
 $app->get('/', function () use ($app) {
     $billets = $app['dao.billet']->findAll();
      return $app['twig']->render('index.html.twig', array('billets' => $billets));
     })->bind('home');
 
+
 // billet details with comments
 $app->match('/billet/{billet_id}', function ($billet_id, Request $request) use ($app) {
     $billet = $app['dao.billet']->find($billet_id);
     $commentFormView = null;
     
-    if ($app['security.authorization_checker']->isGranted('IS_AUTHENTICATED_FULLY')) {
-        // A user is fully authenticated : he can add comments
+    //Comment form
         $comment = new Comment();
         $comment->setBillet($billet);
-        $user = $app['user'];
-        $comment->setComAuthor($user);
         $commentForm = $app['form.factory']->create(CommentType::class, $comment);
         $commentForm->handleRequest($request);
         if ($commentForm->isSubmitted() && $commentForm->isValid()) {
@@ -32,7 +31,7 @@ $app->match('/billet/{billet_id}', function ($billet_id, Request $request) use (
             $app['session']->getFlashBag()->add('success', 'Your comment was successfully added.');
         }
         $commentFormView = $commentForm->createView();
-    }
+         
     $comments = $app['dao.comment']->findAllByArticle($billet_id);
         
     return $app['twig']->render('billet.html.twig', array(
@@ -50,18 +49,22 @@ $app->get('/login', function(Request $request) use ($app) {
     ));
 })->bind('login');
 
+
 // Register form
 $app->match('/register', function(Request $request) use ($app) {
     $user = new User();
     $userForm = $app['form.factory']->create(UserType::class, $user);
     $userForm->handleRequest($request);
     if ($userForm->isSubmitted() && $userForm->isValid()) {
+        
         // generate a random salt value
         $salt = substr(md5(time()), 0, 23);
         $user->setSalt($salt);
         $plainPassword = $user->getPassword();
+        
         // find the default encoder
         $encoder = $app['security.encoder.bcrypt'];
+        
         // compute the encoded password
         $password = $encoder->encodePassword($plainPassword, $user->getSalt());
         $user->setPassword($password); 
