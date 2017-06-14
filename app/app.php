@@ -58,17 +58,17 @@ $app['twig'] = $app->extend('twig', function(Twig_Environment $twig, $app) {
 $app->register(new Silex\Provider\ValidatorServiceProvider());
 
 // Register services.
-$app['dao.billet'] = function ($app) {
-    return new BlogEcrivain\DAO\BilletDAO($app['db']);
-};
+$app['dao.billet'] = new BlogEcrivain\DAO\BilletDAO($app['db']);
+$app['dao.comment'] = new BlogEcrivain\DAO\CommentDAO($app['db']);
+    //$billetDAO->setCommentDAO($app['dao.comment']);
+    //echo "enregistrement billet";
+    //return $billetDAO;
+    
 
 $app['dao.user'] = function ($app) {
     return new BlogEcrivain\DAO\UserDAO($app['db']);
 };
 
-$app['dao.comment'] = function ($app) {
-    $commentDAO = new BlogEcrivain\DAO\CommentDAO($app['db']);
-    $commentDAO->setBilletDAO($app['dao.billet']);
-    $commentDAO->setUserDAO($app['dao.user']);
-    return $commentDAO;
-};
+$app['dao.comment']->setBilletDAO($app['dao.billet']);
+$app['dao.comment']->setUserDAO($app['dao.user']);
+$app['dao.billet']->setCommentDAO($app['dao.comment']);

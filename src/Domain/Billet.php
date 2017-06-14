@@ -22,7 +22,11 @@ class Billet
      */
     private $billet_content;
 
-    
+    /**Number of comment.
+     *
+     * @var integer
+     */
+    private $nb_comment;
 
     public function getBilletId() {
         return $this->billet_id;
@@ -48,6 +52,15 @@ class Billet
 
     public function setBilletContent($billet_content) {
         $this->billet_content = $billet_content;
+        return $this;
+    }
+    
+     public function getNbComment() {
+        return $this->nb_comment;
+    }
+
+    public function setNbComment($nb_comment) {
+        $this->nb_comment = $nb_comment;
         return $this;
     }
 

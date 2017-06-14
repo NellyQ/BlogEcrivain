@@ -4,8 +4,18 @@ namespace BlogEcrivain\DAO;
 
 use BlogEcrivain\Domain\Billet;
 
+ 
+
 class BilletDAO extends DAO
 {
+    /*** @var \BlogEcrivain\DAO\CommentDAO
+     */
+    private $commentDAO;
+    
+    public function setCommentDAO(CommentDAO $commentDAO) {
+        $this->commentDAO = $commentDAO;
+    }
+    
     /** Return a list of all billets, sorted by date (most recent first).
      *
      * @return array A list of all billets.
@@ -18,7 +28,9 @@ class BilletDAO extends DAO
         $billets = array();
         foreach ($result as $row) {
             $billetId = $row['billet_id'];
+            $nbComment = $this->commentDAO->countAllByArticle($billetId);
             $billets[$billetId] = $this->buildDomainObject($row);
+            $billets[$billetId]->setNbComment($nbComment);
         }
         return $billets;
     }

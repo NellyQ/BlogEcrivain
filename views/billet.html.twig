@@ -10,6 +10,7 @@
     <h3>Commentaires</h3>
     {% for comment in comments %}
         <strong>{{ comment.ComAuthor }}</strong> dit : {{ comment.ComContent }}<br>
+        <p id="actionCom"><a class="comResponse"> Répondre </a> <a class="comSignal"> Signaler </a></p>
     {% else %}
        Il n'y a pas encore de commentaire.
     {% endfor %}

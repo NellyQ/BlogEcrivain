@@ -12,7 +12,8 @@ use BlogEcrivain\Form\Type\UserType;
 // Home page
 $app->get('/', function () use ($app) {
     $billets = $app['dao.billet']->findAll();
-     return $app['twig']->render('index.html.twig', array('billets' => $billets));
+    
+    return $app['twig']->render('index.html.twig', array('billets' => $billets));
     })->bind('home');
 
 
