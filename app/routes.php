@@ -41,6 +41,16 @@ $app->match('/billet/{billet_id}', function ($billet_id, Request $request) use (
         'commentForm' => $commentFormView));
 })->bind('billet');
 
+//Report form
+$app->match('{com_id}/report', function($com_id, Request $request) use ($app) {
+    $ComSignal = $app['dao.comment']->setComSignal($com_id);
+    return $app->redirect($app['url_generator']->generate('home'));
+    
+    
+    
+    
+}) ->bind('report');
+
 
 // Login form
 $app->get('/login', function(Request $request) use ($app) {
@@ -202,12 +212,3 @@ $app->get('/admin/user/{id}/delete', function($id, Request $request) use ($app) 
     // Redirect to admin home page
     return $app->redirect($app['url_generator']->generate('admin'));
 })->bind('admin_user_delete');
-
-// Hachage password
-/*$app->get('/hashpwd', function() use ($app) {
-    $rawPassword = 'Alaska';
-    $salt = '%qUgq3NAYfC1MKwrW?yevbE';
-    $encoder = $app['security.encoder.bcrypt'];
-    return $encoder->encodePassword($rawPassword, $salt);
-});
-*/

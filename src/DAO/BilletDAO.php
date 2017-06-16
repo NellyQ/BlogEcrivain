@@ -55,7 +55,7 @@ class BilletDAO extends DAO
     /**
      * Saves an article into the database.
      *
-     * @param \BlogEcrivain\Domain\Article $article The article to save
+     * @param \BlogEcrivain\Domain\Billet $comment The billet to save
      */
     public function save(Billet $billet) {
         $billetData = array(

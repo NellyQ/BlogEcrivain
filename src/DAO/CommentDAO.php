@@ -102,6 +102,22 @@ class CommentDAO extends DAO
         }
         return $entities;
     }
+   
+    /**
+    * Report a comment for admin management
+    *
+     * @param integer $comSignal
+     */
+    public function setComSignal($com_id) {
+        
+        $sql = "select com_signal from comments where com_id=?";
+        $comSignal = $this ->getDb()->fetchAssoc($sql, array('com_signal'));
+        if ($comSignal == 0) 
+        {
+            $comSignal = 1;
+            return $this->getDb()->update('comments', array('com_signal'=>$comSignal), array('com_id'=>$com_id));
+        }
+    }
     
      /**
      * Removes all comments for a billet

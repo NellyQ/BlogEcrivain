@@ -28,6 +28,12 @@ class Comment
      */
     private $billet;
     
+    /** Comment signalement.
+     *
+     * @var integer
+     */
+    private $com_signal;
+    
     
 
     public function getComId() {
@@ -63,6 +69,15 @@ class Comment
 
     public function setBillet($billet) {
         $this->billet = $billet;
+        return $this;
+    }
+    
+    public function getComSignal() {
+        return $this->com_signal;
+    }
+
+    public function setComSignal($com_signal) {
+        $this->com_signal = $com_signal;
         return $this;
     }
     
