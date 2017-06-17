@@ -35,7 +35,7 @@ class CommentDAO extends DAO
 
         // billet_id is not selected by the SQL query
         // The billet won't be retrieved during domain objet construction
-        $sql = "select com_id, com_content, com_author from comments where billet_id=? order by com_id";
+        $sql = "select com_id, com_content, com_author, com_signal from comments where billet_id=? order by com_id";
         $result = $this->getDb()->fetchAll($sql, array($billetId));
 
         // Convert query result to an array of domain objects
@@ -165,7 +165,6 @@ class CommentDAO extends DAO
     public function deleteAllByUser($userId) {
         $this->getDb()->delete('comments', array('user_id' => $userId));
     }
-    
 
     /** Creates an Comment object based on a DB row.
      *
@@ -177,6 +176,7 @@ class CommentDAO extends DAO
         $comment->setComId($row['com_id']);
         $comment->setComContent($row['com_content']);
         $comment->setComAuthor($row['com_author']);
+        $comment->setComSignal($row['com_signal']);
         
         
         if (array_key_exists('billet_id', $row)) {

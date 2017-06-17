@@ -39,16 +39,19 @@ $app->match('/billet/{billet_id}', function ($billet_id, Request $request) use (
         'billet' => $billet, 
         'comments' => $comments,
         'commentForm' => $commentFormView));
-})->bind('billet');
+    })->bind('billet');
+
+
 
 //Report form
-$app->match('{com_id}/report', function($com_id, Request $request) use ($app) {
+$app->match('/billet/{billet_id}/{com_id}/report', function($billet_id, $com_id, Request $request) use ($app) {
     $ComSignal = $app['dao.comment']->setComSignal($com_id);
-    return $app->redirect($app['url_generator']->generate('home'));
-    
-    
-    
-    
+    $billet = $app['dao.billet']->find($billet_id);
+    $comments = $app['dao.comment']->findAll();
+    $app['session']->getFlashBag()->add('success', 'Your comment was successfully report.');
+    return $app['twig']->render('report.html.twig', array(
+        'billet' => $billet,
+        'comments' => $comments));
 }) ->bind('report');
 
 
@@ -147,7 +150,7 @@ $app->match('/admin/comment/{com_id}/edit', function($com_id, Request $request) 
         $app['session']->getFlashBag()->add('success', 'The comment was successfully updated.');
     }
     return $app['twig']->render('comment_form.html.twig', array(
-        'title' => 'Edit comment',
+        'title' => 'Editer un commentaire',
         'commentForm' => $commentForm->createView()));
 })->bind('admin_comment_edit');
 

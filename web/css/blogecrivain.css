@@ -95,6 +95,20 @@ h3 {
     border-color: #AA8760;
 }
 
+#actionCom {
+    display : flex ;
+    font-size: 0.9em;
+    color : #C8AC8E;
+}
+
+#actionCom a {
+    color : #C8AC8E;
+}
+
+#responseCom {
+    margin-right: 30px;
+}
+
 /*Display format login*/
 .form-control:focus {
     border-color: #AA8760;
@@ -117,6 +131,14 @@ div.lieninscription a {
 .adminTable {
     margin-top: 20px;
     margin-bottom: 20px;
+}
+
+#reportCom {
+    background-color : rgb(255,152,102);
+}
+
+tr#reportCom td a.billetTitle {
+   color : black;
 }
 
 div#hiddenrole.form-group {

@@ -10,7 +10,21 @@
     <h3>Commentaires</h3>
     {% for comment in comments %}
         <strong>{{ comment.ComAuthor }}</strong> dit : {{ comment.ComContent }}<br>
-        <p id="actionCom"><a class="comResponse"> Répondre </a> <a class="comSignal" href="{{ path('report',{ 'com_id': comment.ComId },{ 'billet_id': billet.BilletId }) }}"> Signaler </a></p>
+        
+        <div id="actionCom">
+            <div id="responseCom">
+                <a class="comResponse"> Répondre </a> 
+            </div>
+            {% if comment.ComSignal == 0 %}
+                <div id="reportCom">
+                <a class="comSignal" href="{{ path('report',{ 'com_id': comment.ComId,'billet_id': billet.BilletId }) }}"> Signaler </a></p>
+                </div>
+            {% else %}
+                <a> Ce commentaire est déjà signalé</a>
+            {% endif %}
+        </div>
+
+
     {% else %}
        Il n'y a pas encore de commentaire.
     {% endfor %}
