@@ -147,7 +147,7 @@ $app->match('/admin/comment/{com_id}/edit', function($com_id, Request $request) 
     $commentForm->handleRequest($request);
     if ($commentForm->isSubmitted() && $commentForm->isValid()) {
         $app['dao.comment']->save($comment);
-        $app['session']->getFlashBag()->add('success', 'The comment was successfully updated.');
+        $app['session']->getFlashBag()->add('success', 'Le commentaire est mis à jour.');
     }
     return $app['twig']->render('comment_form.html.twig', array(
         'title' => 'Editer un commentaire',
@@ -157,10 +157,18 @@ $app->match('/admin/comment/{com_id}/edit', function($com_id, Request $request) 
 // Remove a comment
 $app->get('/admin/comment/{com_id}/delete', function($com_id, Request $request) use ($app) {
     $app['dao.comment']->delete($com_id);
-    $app['session']->getFlashBag()->add('success', 'The comment was successfully removed.');
+    $app['session']->getFlashBag()->add('success', 'Le commentaire est supprimé.');
     // Redirect to admin home page
     return $app->redirect($app['url_generator']->generate('admin'));
 })->bind('admin_comment_delete');
+
+// Check a comment
+$app->get('/admin/comment/{com_id}/check', function($com_id, Request $request) use ($app) {
+    $ComSignal = $app['dao.comment']->checkComSignal($com_id);
+    $app['session']->getFlashBag()->add('success', 'Le commentaire est validé.');
+    // Redirect to admin home page
+    return $app->redirect($app['url_generator']->generate('admin'));
+})->bind('admin_comment_check');
 
 // Add a user
 $app->match('/admin/user/add', function(Request $request) use ($app) {

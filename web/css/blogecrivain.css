@@ -133,11 +133,11 @@ div.lieninscription a {
     margin-bottom: 20px;
 }
 
-#reportCom {
+#reportComAdmin {
     background-color : rgb(255,152,102);
 }
 
-tr#reportCom td a.billetTitle {
+tr#reportComAdmin td a.billetTitle {
    color : black;
 }
 
