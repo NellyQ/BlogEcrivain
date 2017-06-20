@@ -105,8 +105,16 @@ h3 {
     color : #C8AC8E;
 }
 
-#responseCom {
+.comResponse {
     margin-right: 30px;
+}
+
+#comment_parent_id {
+    display:none;
+}
+
+#comment_com_level {
+    display:none;
 }
 
 /*Display format login*/

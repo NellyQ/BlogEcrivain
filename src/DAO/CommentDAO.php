@@ -35,7 +35,7 @@ class CommentDAO extends DAO
 
         // billet_id is not selected by the SQL query
         // The billet won't be retrieved during domain objet construction
-        $sql = "select com_id, com_content, com_author, com_signal from comments where billet_id=? order by com_id";
+        $sql = "SELECT * FROM comments WHERE billet_id=? ORDER BY com_id";
         $result = $this->getDb()->fetchAll($sql, array($billetId));
 
         // Convert query result to an array of domain objects
@@ -49,6 +49,8 @@ class CommentDAO extends DAO
         }
         return $comments;
     }
+    
+    
     
     /** Return a count of all comments for a billet.
      *
@@ -75,7 +77,9 @@ class CommentDAO extends DAO
         $commentData = array(
             'billet_id' => $comment->getBillet()->getBilletId(),
             'com_author' => $comment->getComAuthor(),
-            'com_content' => $comment->getComContent()
+            'com_content' => $comment->getComContent(),
+            'parent_id' => $comment->getParentId(),
+            'com_level' => $comment->getComLevel()
             );
 
         if ($comment->getComId()) {
@@ -188,6 +192,8 @@ class CommentDAO extends DAO
         $comment->setComId($row['com_id']);
         $comment->setComContent($row['com_content']);
         $comment->setComAuthor($row['com_author']);
+        $comment->setParentId($row['parent_id']);
+        $comment->setComLevel($row['com_level']);
         $comment->setComSignal($row['com_signal']);
         
         

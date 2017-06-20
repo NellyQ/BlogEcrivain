@@ -41,6 +41,30 @@ $app->match('/billet/{billet_id}', function ($billet_id, Request $request) use (
         'commentForm' => $commentFormView));
     })->bind('billet');
 
+//Comment response
+$app->match('/billet/{billet_id}/{com_id}/response', function($billet_id, $com_id, Request $request) use ($app) {
+    
+    $billet = $app['dao.billet']->find($billet_id);
+    $commentFormView = null;
+    //Comment form
+        $comment = new Comment();
+        $comment->setBillet($billet);
+        $commentForm = $app['form.factory']->create(CommentType::class, $comment);
+        $commentForm->handleRequest($request);
+        if ($commentForm->isSubmitted() && $commentForm->isValid()) {
+            $app['dao.comment']->save($comment);
+            $app['session']->getFlashBag()->add('success', 'Your comment was successfully added.');
+        }
+        $commentFormView = $commentForm->createView();
+    
+    $comment = $app['dao.comment']->find($com_id);
+    
+    return $app['twig']->render('response.html.twig', array(
+        'billet' => $billet,
+        'comment' => $comment,
+        'commentForm' => $commentFormView));
+}) ->bind('response');
+
 
 
 //Report form

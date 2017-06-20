@@ -28,6 +28,18 @@ class Comment
      */
     private $billet;
     
+    /** Parent ID.
+     *
+     * @var integer
+     */
+    private $parent_id;
+    
+    /** Comment level.
+     *
+     * @var integer
+     */
+    private $com_level;
+    
     /** Comment signalement.
      *
      * @var integer
@@ -69,6 +81,24 @@ class Comment
 
     public function setBillet($billet) {
         $this->billet = $billet;
+        return $this;
+    }
+    
+    public function getParentId() {
+        return $this->parent_id;
+    }
+
+    public function setParentId($parent_id) {
+        $this->parent_id = $parent_id;
+        return $this;
+    }
+    
+    public function getComLevel() {
+        return $this->com_level;
+    }
+
+    public function setComLevel($com_level) {
+        $this->com_level = $com_level;
         return $this;
     }
     

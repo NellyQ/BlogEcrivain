@@ -4,32 +4,13 @@
 
 {% block content %}
 <p>
-    <h2>{{ billet.BilletTitle }}</h2>
-    <p>{{ billet.BilletContent | raw }} </p>
     
-    <h3>Commentaires</h3>
-    {% for comment in comments %}
-
+    <h3>Commentaire</h3>
+    
         <strong>{{ comment.ComAuthor }}</strong> dit : {{ comment.ComContent }}<br>
         
-        <div id="actionCom">
-            
-            <a class="comResponse" href="{{ path('response',{ 'com_id': comment.ComId,'billet_id': billet.BilletId }) }}"> Répondre </a> 
-                        
-            {% if comment.ComSignal == 0 %}
-                <div id="reportCom">
-                <a class="comSignal" href="{{ path('report',{ 'com_id': comment.ComId,'billet_id': billet.BilletId }) }}"> Signaler </a></p>
-                </div>
-            {% else %}
-                <a> Ce commentaire est déjà signalé</a>
-            {% endif %}
-        </div>
 
-    {% else %}
-       Il n'y a pas encore de commentaire.
-    {% endfor %}
-
-    <h3>Ajouter un commentaire</h3>
+    <h3>Répondre</h3>
   
         {{ form_start(commentForm) }}
             
@@ -59,24 +40,30 @@
                 
                 {{ form_widget(commentForm.parent_id, { 'attr':  {
                     'class': 'form-control',
-                    'value' : 0
+                    'value' : (comment.ComId)
                 }}) }}
                 
                 {{ form_widget(commentForm.com_level, { 'attr':  {
                     'class': 'form-control',
-                    'value' : 0
+                    'value' : (comment.ComLevel +1)
                 }}) }}
+  
             </div>
             
+            {% if comment.ComLevel <= 1 %}
             <div class="form-group">
-                <input type="submit" class="btn btn-primary" value="Publier un commentaire" />
+                <input type="submit" class="btn btn-primary" value="Répondre" />
             </div>
+            {% else %}
+                    <div class="alert alert-warning"> Vous ne pouvez pas répondre à ce commentaire</div>
+            {% endif %}
 
 
         {{ form_end(commentForm) }}
         {% for flashMessage in app.session.flashbag.get('success') %}
             <div class="alert alert-success">
                 {{ flashMessage }}
+                <p id="returnBilletDetail"><a class="comReturn" href="{{ path('billet', { 'billet_id': billet.BilletID })}}" > Retour aux commentaires </a></p>
             </div>
         {% endfor %} 
 

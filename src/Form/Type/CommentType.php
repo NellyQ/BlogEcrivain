@@ -22,6 +22,16 @@ class CommentType extends AbstractType
                         'min' => 2,'max' => 100,
                         ))),
             ))
+            
+            ->add('parent_id', TextType::class, array (
+                'label' => false,
+                'attr' => array('class' => 'parentId') 
+            ))
+            
+            ->add('com_level', TextType::class, array (
+                'label' => false,
+                'attr' => array('class' => 'comLevel') 
+            ))
         
             ->add('com_content', TextareaType::class, array(
                     'required'    => true,
