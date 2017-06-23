@@ -40,7 +40,7 @@ class CommentType extends AbstractType
                         new Assert\Length(array(
                         'min' => 5,'max' => 500,
                         ))),
-        ));
+            ));
             
     }
 

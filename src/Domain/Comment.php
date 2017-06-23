@@ -110,6 +110,5 @@ class Comment
         $this->com_signal = $com_signal;
         return $this;
     }
-    
    
 }

@@ -43,14 +43,31 @@ class CommentDAO extends DAO
         foreach ($result as $row) {
             $comId = $row['com_id'];
             $comment = $this->buildDomainObject($row);
+            $commentChild = $this->buildDomainObject($row);
+            // The associated article is defined for the constructed comment
+            $comment->setBillet($billet);
+            $comments[$comId] = $comment;
+            $comments[$comId] = $commentChild;
+               
+        }
+        return $comments;
+    }
+    
+    public function findAllByComment($com_id) {
+        $sql = "SELECT DISTINCT c1.* FROM comments c1 INNER JOIN commments c2 ON c1.com_id = c2.parent_id AND c1.com_id <= c2.parent_id ORDER BY com_id";
+        $result = $this->getDb()->fetchAll($sql, array($billetId));
+
+        // Convert query result to an array of domain objects
+        $comments = array();
+        foreach ($result as $row) {
+            $comId = $row['com_id'];
+            $comment = $this->buildDomainObject($row);
             // The associated article is defined for the constructed comment
             $comment->setBillet($billet);
             $comments[$comId] = $comment;
         }
         return $comments;
     }
-    
-    
     
     /** Return a count of all comments for a billet.
      *
@@ -95,7 +112,7 @@ class CommentDAO extends DAO
     }
     
      public function findAll() {
-        $sql = "select * from comments order by com_id desc";
+        $sql = "SELECT * FROM comments ORDER BY com_id DESC";
         $result = $this->getDb()->fetchAll($sql);
 
         // Convert query result to an array of domain objects
@@ -114,7 +131,7 @@ class CommentDAO extends DAO
      */
     public function setComSignal($com_id) {
         
-        $sql = "select com_signal from comments where com_id=?";
+        $sql = "SELECT com_signal FROM comments WHERE com_id=?";
         $comSignal = $this ->getDb()->fetchAssoc($sql, array('com_signal'));
         if ($comSignal == 0) 
         {
@@ -129,7 +146,7 @@ class CommentDAO extends DAO
      * @param integer $comSignal
      */
     public function checkComSignal($com_id) {
-        $sql = "select com_signal from comments where com_id=?";
+        $sql = "SELECT com_signal FROM comments WHERE com_id=?";
         $comSignal = $this ->getDb()->fetchAssoc($sql, array('com_signal'));
         $comSignal = 0;
         return $this->getDb()->update('comments', array('com_signal'=>$comSignal), array('com_id'=>$com_id));
@@ -152,7 +169,7 @@ class CommentDAO extends DAO
      * @return \BlogEcrivain\Domain\Comment|throws an exception if no matching comment is found
      */
     public function find($com_id) {
-        $sql = "select * from comments where com_id=?";
+        $sql = "SELECT * FROM comments WHERE com_id=?";
         $row = $this->getDb()->fetchAssoc($sql, array($com_id));
 
         if ($row)

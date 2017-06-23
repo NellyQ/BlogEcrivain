@@ -95,6 +95,14 @@ h3 {
     border-color: #AA8760;
 }
 
+div.commentLevel_1 {
+    margin-left: 40px;
+}
+
+div.commentLevel_2 {
+    margin-left: 80px;
+}
+
 #actionCom {
     display : flex ;
     font-size: 0.9em;
@@ -116,6 +124,7 @@ h3 {
 #comment_com_level {
     display:none;
 }
+
 
 /*Display format login*/
 .form-control:focus {

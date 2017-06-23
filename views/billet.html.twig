@@ -8,26 +8,50 @@
     <p>{{ billet.BilletContent | raw }} </p>
     
     <h3>Commentaires</h3>
-    {% for comment in comments %}
+    
+{% macro comment_display(comment, comments) %} 
 
-        <strong>{{ comment.ComAuthor }}</strong> dit : {{ comment.ComContent }}<br>
-        
+    <div class="commentLevel_{{ comment.ComLevel }}"> <strong>{{ comment.ComAuthor }}</strong> dit : {{ comment.ComContent }}<br> 
+    
         <div id="actionCom">
-            
-            <a class="comResponse" href="{{ path('response',{ 'com_id': comment.ComId,'billet_id': billet.BilletId }) }}"> Répondre </a> 
-                        
+
+            {% if comment.ComLevel <= 1 %}
+                <a class="comResponse" href="{{ path('response',{ 'com_id': comment.ComId,'billet_id': comment.Billet.BilletId }) }}"> Répondre </a> 
+            {% endif %}
+
             {% if comment.ComSignal == 0 %}
                 <div id="reportCom">
-                <a class="comSignal" href="{{ path('report',{ 'com_id': comment.ComId,'billet_id': billet.BilletId }) }}"> Signaler </a></p>
+                    <a class="comSignal" href="{{ path('report',{ 'com_id': comment.ComId,'billet_id': comment.Billet.BilletId }) }}"> Signaler </a></p>
                 </div>
+
             {% else %}
                 <a> Ce commentaire est déjà signalé</a>
             {% endif %}
         </div>
 
-    {% else %}
+    </div>
+
+            {% for commentChild in comments %}
+                    
+                {% if commentChild.ParentId == comment.ComId %}
+                     {{ _self.comment_display(commentChild, comments) }}
+                {% endif %}
+
+            {% endfor %}
+
+{% endmacro %}
+
+{% for comment in comments %}
+
+    {% if comment.ParentId == 0 %}
+
+        {{ _self.comment_display(comment, comments) }}
+        
+    {% endif %}
+
+{% else %}
        Il n'y a pas encore de commentaire.
-    {% endfor %}
+{% endfor %}
 
     <h3>Ajouter un commentaire</h3>
   

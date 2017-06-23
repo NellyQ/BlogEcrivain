@@ -17,10 +17,10 @@ class UserType extends AbstractType
             ->add('username', TextType::class)
             ->add('password', RepeatedType::class, array(
                 'type'            => PasswordType::class,
-                 'invalid_message' => 'The password fields must match.',
-                 'options'         => array('required' => true),
-                 'first_options'   => array('label' => 'Password'),
-                 'second_options'  => array('label' => 'Repeat password'),
+                'invalid_message' => 'The password fields must match.',
+                'options'         => array('required' => true),
+                'first_options'   => array('label' => 'Password'),
+                'second_options'  => array('label' => 'Repeat password'),
              ))
             ->add('role', ChoiceType::class, array(
                 'choices' => array('User' => 'ROLE_USER','Admin' => 'ROLE_ADMIN')
