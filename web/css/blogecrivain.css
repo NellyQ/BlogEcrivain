@@ -135,16 +135,7 @@ div.lieninscription a {
     color : #AA8760;
 }
 
-/*Display format footer*/
-.footer {
-    border-top: 1px solid #ccc;
-    padding-top: 10px;
-    text-align: center;
-    margin-top: 40px;
-}
-
-
-
+/*Display format admin*/
 .adminTable {
     margin-top: 20px;
     margin-bottom: 20px;
@@ -158,6 +149,8 @@ tr#reportComAdmin td a.billetTitle {
    color : black;
 }
 
+/*Display format inscription*/
+
 div#hiddenrole.form-group {
     visibility : hidden;
 
@@ -166,4 +159,21 @@ div#hiddenrole.form-group {
 div.lieninscription {
     text-align: center;
 }
+
+/*Display format footer*/
+.footer {
+    border-top: 1px solid #ccc;
+    padding-top: 10px;
+    text-align: center;
+    margin-top: 40px;
+}
+
+/*Erreur */
+
+#errorPanel {
+    padding-top: 30px;
+    padding-bottom: 10px;
+}
+
+
 

@@ -33,7 +33,7 @@ $app->match('/billet/{billet_id}', function ($billet_id, Request $request) use (
         }
         $commentFormView = $commentForm->createView();
          
-    $comments = $app['dao.comment']->findAllByArticle($billet_id);
+    $comments = $app['dao.comment']->findAllByBillet($billet_id);
     
     return $app['twig']->render('billet.html.twig', array(
         'billet' => $billet, 
@@ -171,7 +171,7 @@ $app->match('/admin/billet/{billet_id}/edit', function($billet_id, Request $requ
 $app->get('/admin/billet/{billet_id}/delete', function($billet_id, Request $request) use ($app) {
     
     // Delete all associated comments
-    $app['dao.comment']->deleteAllByArticle($billet_id);
+    $app['dao.comment']->deleteAllByBillet($billet_id);
     
     // Delete the billet
     $app['dao.billet']->delete($billet_id);
@@ -255,8 +255,10 @@ $app->match('/admin/user/{id}/edit', function($id, Request $request) use ($app) 
     
     if ($userForm->isSubmitted() && $userForm->isValid()) {
         $plainPassword = $user->getPassword();
+        
         // find the encoder for the user
         $encoder = $app['security.encoder_factory']->getEncoder($user);
+        
         // compute the encoded password
         $password = $encoder->encodePassword($plainPassword, $user->getSalt());
         $user->setPassword($password); 

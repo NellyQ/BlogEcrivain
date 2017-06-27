@@ -22,7 +22,7 @@ class Comment
      */
     private $com_content;
 
-    /** Associated article.
+    /** Associated billet.
      *
      * @var \BlogEcrivain\Domain\Article
      */

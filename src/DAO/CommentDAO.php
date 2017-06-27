@@ -29,7 +29,7 @@ class CommentDAO extends DAO
      *
      * @return array A list of all comments for the billet.
      */
-    public function findAllByArticle($billetId) {
+    public function findAllByBillet($billetId) {
         // The associated article is retrieved only once
         $billet = $this->billetDAO->find($billetId);
 
@@ -47,36 +47,20 @@ class CommentDAO extends DAO
             // The associated article is defined for the constructed comment
             $comment->setBillet($billet);
             $comments[$comId] = $comment;
-            $comments[$comId] = $commentChild;
-               
+            $comments[$comId] = $commentChild;        
         }
         return $comments;
     }
-    
-    public function findAllByComment($com_id) {
-        $sql = "SELECT DISTINCT c1.* FROM comments c1 INNER JOIN commments c2 ON c1.com_id = c2.parent_id AND c1.com_id <= c2.parent_id ORDER BY com_id";
-        $result = $this->getDb()->fetchAll($sql, array($billetId));
-
-        // Convert query result to an array of domain objects
-        $comments = array();
-        foreach ($result as $row) {
-            $comId = $row['com_id'];
-            $comment = $this->buildDomainObject($row);
-            // The associated article is defined for the constructed comment
-            $comment->setBillet($billet);
-            $comments[$comId] = $comment;
-        }
-        return $comments;
-    }
-    
+        
     /** Return a count of all comments for a billet.
      *
      * @param integer $billetId The billet id.
      *
      * @return A count of all comments for the billet.
      */
-    public function countAllByArticle($billetId) {
-        // The associated article is retrieved only once
+    public function countAllByBillet($billetId) {
+        
+        // The associated billet is retrieved only once
         $billet = $this->billetDAO->find($billetId);
         
         $sql = "SELECT COUNT(*) AS nb_comment FROM comments WHERE billet_id = ?";
@@ -100,18 +84,24 @@ class CommentDAO extends DAO
             );
 
         if ($comment->getComId()) {
+            
             // The comment has already been saved : update it
             $this->getDb()->update('comments', $commentData, array('com_id' => $comment->getComId()));
         } else {
+            
             // The comment has never been saved : insert it
             $this->getDb()->insert('comments', $commentData);
+            
             // Get the id of the newly created comment and set it on the entity.
             $com_id = $this->getDb()->lastInsertId();
             $comment->setComId($com_id);
         }
     }
     
-     public function findAll() {
+    /**
+     * Find all the comments.
+     */
+    public function findAll() {
         $sql = "SELECT * FROM comments ORDER BY com_id DESC";
         $result = $this->getDb()->fetchAll($sql);
 
@@ -124,11 +114,12 @@ class CommentDAO extends DAO
         return $entities;
     }
    
+    
     /**
     * Report a comment for admin management
     *
-     * @param integer $comSignal
-     */
+    * @param integer $comSignal
+    */
     public function setComSignal($com_id) {
         
         $sql = "SELECT com_signal FROM comments WHERE com_id=?";
@@ -140,11 +131,12 @@ class CommentDAO extends DAO
         }
     }
     
+    
     /**
     * Check a comment for admin management
     *
-     * @param integer $comSignal
-     */
+    * @param integer $comSignal
+    */
     public function checkComSignal($com_id) {
         $sql = "SELECT com_signal FROM comments WHERE com_id=?";
         $comSignal = $this ->getDb()->fetchAssoc($sql, array('com_signal'));
@@ -152,14 +144,16 @@ class CommentDAO extends DAO
         return $this->getDb()->update('comments', array('com_signal'=>$comSignal), array('com_id'=>$com_id));
     }
     
+    
      /**
      * Removes all comments for a billet
      *
      * @param $billetId The id of the billet
      */
-    public function deleteAllByArticle($billetId) {
+    public function deleteAllByBillet($billetId) {
         $this->getDb()->delete('comments', array('billet_id' => $billetId));
     }
+    
     
     /**
      * Returns a comment matching the supplied id.
@@ -178,7 +172,6 @@ class CommentDAO extends DAO
             throw new \Exception("No comment matching id " . $com_id);
     }
 
-    // ...
 
     /**
      * Removes a comment from the database.
@@ -199,6 +192,7 @@ class CommentDAO extends DAO
         $this->getDb()->delete('comments', array('user_id' => $userId));
     }
 
+    
     /** Creates an Comment object based on a DB row.
      *
      * @param array $row The DB row containing Comment data.
@@ -219,13 +213,6 @@ class CommentDAO extends DAO
             $billetId = $row['billet_id'];
             $billet = $this->billetDAO->find($billetId);
             $comment->setBillet($billet);
-        }
-        
-        if (array_key_exists('user_id', $row)) {
-            // Find and set the associated author
-            $userId = $row['user_id'];
-            $user = $this->userDAO->find($userId);
-            $comment->setComAuthor($user);
         }
         
         return $comment;

@@ -6,6 +6,7 @@
 
 {% block content %}
     <h2 class="text-center">Nouveau billet</h2>
+    
     {% for flashMessage in app.session.flashbag.get('success') %}
         <div class="alert alert-success">
             {{ flashMessage }}
@@ -26,7 +27,8 @@
                 <input type="submit" class="btn btn-primary" value="Enregistrer" />
             </div>
         </div>
-        {{ form_end(billetForm) }}
+       {{ form_end(billetForm) }}
     </div>
+
 {% endblock %}
 

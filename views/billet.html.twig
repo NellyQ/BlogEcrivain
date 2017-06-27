@@ -61,19 +61,20 @@
                 
                 <!-- User authentificated : com_author value is the username  -->
                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                {{ form_widget(commentForm.com_author, { 'attr':  {
-                    'class': 'form-control',
-                    'placeholder': 'Entrer votre pseudo',
-                    'value' : (app.user.username)
-                }}) }}
+                    {{ form_widget(commentForm.com_author, { 'attr':  {
+                        'class': 'form-control',
+                        'placeholder': 'Entrer votre pseudo',
+                        'value' : (app.user.username)
+                    }}) }}
                 
                 <!-- User unknow : com_author value is empty  -->
                 {% else %}
-                {{ form_widget(commentForm.com_author, { 'attr':  {
-                    'class': 'form-control',
-                    'placeholder': 'Entrer votre pseudo'
-                }}) }}
+                    {{ form_widget(commentForm.com_author, { 'attr':  {
+                        'class': 'form-control',
+                        'placeholder': 'Entrer votre pseudo'
+                    }}) }}
                 {% endif %}
+                
                 {{ form_errors(commentForm.com_content) }}
                 {{ form_widget(commentForm.com_content, { 'attr':  {
                     'rows': '4',
@@ -98,11 +99,12 @@
 
 
         {{ form_end(commentForm) }}
+        
         {% for flashMessage in app.session.flashbag.get('success') %}
             <div class="alert alert-success">
                 {{ flashMessage }}
             </div>
         {% endfor %} 
 
-   </p>
+</p>
 {% endblock %}

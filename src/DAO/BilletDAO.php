@@ -16,6 +16,7 @@ class BilletDAO extends DAO
         $this->commentDAO = $commentDAO;
     }
     
+    
     /** Return a list of all billets, sorted by date (most recent first).
      *
      * @return array A list of all billets.
@@ -28,19 +29,20 @@ class BilletDAO extends DAO
         $billets = array();
         foreach ($result as $row) {
             $billetId = $row['billet_id'];
-            $nbComment = $this->commentDAO->countAllByArticle($billetId);
+            $nbComment = $this->commentDAO->countAllByBillet($billetId);
             $billets[$billetId] = $this->buildDomainObject($row);
             $billets[$billetId]->setNbComment($nbComment);
         }
         return $billets;
     }
     
+    
     /**
-     * Returns an article matching the supplied id.
+     * Returns a billet matching the supplied id.
      *
-     * @param integer $id
+     * @param integer $billet_id
      *
-     * @return \BlogEcrivain\Domain\Article|throws an exception if no matching article is found
+     * @return \BlogEcrivain\Domain\Billet|throws an exception if no matching article is found
      */
     public function find($billet_id) {
         $sql = "select * from billets where billet_id=?";
@@ -52,10 +54,11 @@ class BilletDAO extends DAO
             throw new \Exception("No article matching id " . $billet_id);
     }
     
+    
     /**
-     * Saves an article into the database.
+     * Saves a billet into the database.
      *
-     * @param \BlogEcrivain\Domain\Billet $comment The billet to save
+     * @param \BlogEcrivain\Domain\Billet The billet to save
      */
     public function save(Billet $billet) {
         $billetData = array(
@@ -64,30 +67,35 @@ class BilletDAO extends DAO
             );
 
         if ($billet->getBilletId()) {
-            // The article has already been saved : update it
+            
+            // The billet has already been saved : update it
             $this->getDb()->update('billets', $billetData, array('billet_id' => $billet->getBilletId()));
         } else {
-            // The article has never been saved : insert it
+            
+            // The billet has never been saved : insert it
             $this->getDb()->insert('billets', $billetData);
-            // Get the id of the newly created article and set it on the entity.
+            
+            // Get the id of the newly created billet and set it on the entity.
             $billet_id = $this->getDb()->lastInsertId();
             $billet->setBilletId($billet_id);
         }
     }
 
+    
     /**
-     * Removes an article from the database.
+     * Removes a billet from the database.
      *
-     * @param integer $id The article id.
+     * @param integer $billet_id The billet id.
      */
     public function delete($billet_id) {
         // Delete the article
         $this->getDb()->delete('billets', array('billet_id' => $billet_id));
     }
 
-    /**Creates an Billet object based on a DB row.
+    
+    /**Creates a billet object based on a DB row.
      *
-     * @param array $row The DB row containing Billet data.
+     * @param array $row The DB row containing billet data.
      * @return \BlogEcrivain\Domain\Billet
      */
     protected function buildDomainObject(array $row) {

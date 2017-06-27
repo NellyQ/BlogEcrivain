@@ -2,34 +2,39 @@
 <html>
 
 <head>
+
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="{{ asset('/lib/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('/css/blogecrivain.css') }}" rel="stylesheet" />
-    <script src="/js/blogecrivain.js"></script>
     <script type="text/javascript" src="{{asset('/lib/tinymce/tinymce.js')}}"></script>
     <script type="text/javascript">
         tinyMCE.init({
             // type de mode
-            mode : "exact",
+            mode: "exact",
             // class des textareas
             selector: ".tinymce",
-            language_url: '{{ asset('/lib/tinymce/langs/fr_FR.js') }}',
+            language_url: '{{ asset(' / lib / tinymce / langs / fr_FR.js ') }}',
             plugins: 'link, emoticons, image imagetools textcolor fullscreen print',
             toolbar: "undo redo | bold italic underline | forecolor backcolor | alignleft aligncenter alignright alignjustify | indent outdent | image link  | fullscreen imagetools "
-                                              
-           });
+
+        });
+
     </script>
-    
+
     <title>Un billet pour l'Alaska</title>
+
 </head>
 
 <body>
-    
-   <div class="container">
+
+    <div class="container">
+
         <nav class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation">
+
             <div class="container">
+
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-target">
                         <span class="icon-bar"></span>
@@ -37,48 +42,55 @@
                         <span class="icon-bar"></span>
                     </button>
                     <a class="navbar-brand" href="{{ path('home') }}">Un billet pour l'Alaska</a>
-                </div>            
-                
+                </div>
+
                 <div class="collapse navbar-collapse" id="navbar-collapse-target">
-                   <ul class="nav navbar-nav navbar-right">
+                    <ul class="nav navbar-nav navbar-right">
+
                         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                            <li class="dropdown">
+                        <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <span class="glyphicon glyphicon-user"></span> Bonjour, {{ app.user.username }} <b class="caret"></b></a>
-                                <ul class="dropdown-menu">
-                                    {% if app.user and is_granted('ROLE_ADMIN') %}
-                                    <li class="{% if adminMenu is defined %}active{% endif %}"><a href="{{ path('admin') }}"><span class="glyphicon glyphicon-cog"></span> Administration</a></li>
-                                    {% endif %}
-                                    <li><a href="{{ path('logout') }}">Se déconnecter</a></li>
-                                </ul>
-                            </li>
+                            <ul class="dropdown-menu">
+                                {% if app.user and is_granted('ROLE_ADMIN') %}
+                                <li class="{% if adminMenu is defined %}active{% endif %}"><a href="{{ path('admin') }}"><span class="glyphicon glyphicon-cog"></span> Administration</a></li>
+                                {% endif %}
+                                <li><a href="{{ path('logout') }}">Se déconnecter</a></li>
+                            </ul>
+                        </li>
+
                         {% else %}
-                            <li class="dropdown">
+                        <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <span class="glyphicon glyphicon-user"></span> Connexion <b class="caret"></b></a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="{{ path('login') }}">S'identifier</a></li>
-                                    <li><a href="{{ path('register') }}">S'inscrire</a></li>
-                                </ul>
-                            </li>
+                            <ul class="dropdown-menu">
+                                <li><a href="{{ path('login') }}">S'identifier</a></li>
+                                <li><a href="{{ path('register') }}">S'inscrire</a></li>
+                            </ul>
+                        </li>
                         {% endif %}
+                        
                     </ul>
                 </div>
-            </div><!-- /.container -->
+
+            </div>
+            <!-- /.container -->
         </nav>
 
         <div id="content">{% block content %}{% endblock %}</div>
-        
+
         <footer class="footer">
             Un billet pour l'Alaska - blog de Jean Forteroche
         </footer>
-    </div>
     
+    </div>
+
     <!-- jQuery -->
     <script src="{{ asset('/lib/jquery/jquery.min.js') }}"></script>
     <!-- JavaScript Boostrap plugin -->
     <script src="{{ asset('/lib/bootstrap/js/bootstrap.min.js') }}"></script>
-    
-    
+
+
 </body>
+
 </html>

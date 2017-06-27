@@ -14,6 +14,7 @@ class BilletType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            
             ->add('billet_title', TextType::class, array(
                     'required'    => true,
                     'constraints' => array(
@@ -22,6 +23,7 @@ class BilletType extends AbstractType
                         'min' => 5,'max' => 100,
                         ))),
             ))
+            
             ->add('billet_content', TextareaType::class, array(
                     'required'    => false,
                     'attr' => array('class' => 'tinymce')                            

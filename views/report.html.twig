@@ -3,14 +3,17 @@
 
 
 {% block content %}
+
 <h2 class="text-center">{{ block('title') }}</h2>
+
 {% for flashMessage in app.session.flashbag.get('success') %}
-<div class="alert alert-success">
-    {{ flashMessage }}
-</div>
+    
+    <div class="alert alert-success">
+        {{ flashMessage }}
+    </div>
+
 {% endfor %}
 
- <p id="returnBilletDetail"><a class="comReturn" href="{{ path('billet', { 'billet_id': billet.BilletID })}}" > Retour aux commentaires </a></p>
-
+    <p id="returnBilletDetail"><a class="comReturn" href="{{ path('billet', { 'billet_id': billet.BilletID })}}" > Retour aux commentaires </a></p>
 
 {% endblock %}

@@ -1,15 +1,11 @@
-{% extends "layout.html.twig" %}
-{% set adminMenu = true %}
+{% extends "layout.html.twig" %} {% set adminMenu = true %} {% block title %}Administration{% endblock %} {% block content %}
 
-{% block title %}Administration{% endblock %}
-
-{% block content %}
-<h2 class="text-center">{{ block('title') }}</h2>
-{% for flashMessage in app.session.flashbag.get('success') %}
+<h2 class="text-center">{{ block('title') }}</h2> {% for flashMessage in app.session.flashbag.get('success') %}
 <div class="alert alert-success">
     {{ flashMessage }}
 </div>
 {% endfor %}
+
 <div class="row">
     <div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
         <ul class="nav nav-tabs nav-justified">
@@ -19,26 +15,34 @@
         </ul>
     </div>
 </div>
+
 <div class="tab-content">
     <div class="tab-pane fade in active adminTable" id="billets">
+
         {% if billets %}
+        
         <div class="table-responsive">
             <table class="table table-hover table-condensed">
                 <thead>
                     <tr>
                         <th>Titre</th>
                         <th>Contenu</th>
-                        <th></th>  <!-- Actions column -->
+                        <th></th>
+                        <!-- Actions column -->
                     </tr>
                 </thead>
+
                 {% for billet in billets %}
                 <tr>
                     <td><a class="billetTitle" href="{{ path('billet', { 'billet_id': billet.BilletId }) }}">{{ billet.BilletTitle }}</a></td>
                     <td>{{ billet.BilletContent | truncate(60) }}</td>
+                    
                     <td>
                         <a href="{{ path('admin_billet_edit', { 'billet_id': billet.BilletId }) }}" class="btn btn-info btn-xs" title="Edit"><span class="glyphicon glyphicon-edit"></span></a>
+                        
                         <button type="button" class="btn btn-danger btn-xs" title="Delete" data-toggle="modal" data-target="#billetDialog{{ billet.BilletId }}"><span class="glyphicon glyphicon-remove"></span>
                         </button>
+                        
                         <div class="modal fade" id="billetDialog{{ billet.BilletId }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
@@ -53,24 +57,36 @@
                                         <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
                                         <a href="{{ path('admin_billet_delete', { 'billet_id': billet.BilletId }) }}" class="btn btn-danger">Confirmer</a>
                                     </div>
-                                </div><!-- /.modal-content -->
-                            </div><!-- /.modal-dialog -->
-                        </div><!-- /.modal -->
+                                </div>
+                                <!-- /.modal-content -->
+                            </div>
+                            <!-- /.modal-dialog -->
+                        </div>
+                        <!-- /.modal -->
                     </td>
                 </tr>
                 {% endfor %}
+
             </table>
         </div>
+        
         {% else %}
+        
         <div class="alert alert-warning">Pas de billet trouvés.</div>
+        
         {% endif %}
-        <a href="{{ path('admin_billet_add') }}"><button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Ajouter un billet</button></a>
+        
+        <a href="{{ path('admin_billet_add') }}">
+            <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Ajouter un billet</button>
+        </a>
+        
     </div>
-    
-     <!-- Comments admin -->
+
+    <!-- Comments admin -->
     <div class="tab-pane fade adminTable" id="comments">
-          
+
         {% if comments %}
+        
         <div class="table-responsive">
             <table class="table table-hover table-condensed">
                 <thead>
@@ -78,19 +94,28 @@
                         <th>Billet</th>
                         <th>Identifiant</th>
                         <th>Commentaire</th>
-                        <th></th>  <!-- Actions column -->
+                        <th></th>
+                        <!-- Actions column -->
                     </tr>
                 </thead>
-                {% for comment in comments %}
+                
+                {% for comment in comments %} 
+                
                     {% if comment.ComSignal == 1 %}
+                
                     <tr id="reportComAdmin">
                         <td><a class="billetTitle" href="{{ path('billet', { 'billet_id': comment.billet.BilletId }) }}">{{ comment.billet.BilletTitle }}</a></td>
+
                         <td>{{ comment.ComAuthor }}</td>
+
                         <td>{{ comment.ComContent | truncate(60) }}</td>
+
                         <td>
                             <a href="{{ path('admin_comment_edit', { 'com_id': comment.ComId }) }}" class="btn btn-info btn-xs" title="Editer"><span class="glyphicon glyphicon-edit"></span></a>
+
                             <button type="button" class="btn btn-danger btn-xs" title="Supprimer" data-toggle="modal" data-target="#commentDialog{{ comment.ComId }}"><span class="glyphicon glyphicon-remove"></span>
                             </button>
+
                             <div class="modal fade" id="commentDialog{{ comment.ComId }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
@@ -105,12 +130,16 @@
                                             <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
                                             <a href="{{ path('admin_comment_delete', { 'com_id': comment.ComId }) }}" class="btn btn-danger">Confirmer</a>
                                         </div>
-                                    </div><!-- /.modal-content -->
-                                </div><!-- /.modal-dialog -->
-                            </div><!-- /.modal -->
-                            
+                                    </div>
+                                    <!-- /.modal-content -->
+                                </div>
+                                <!-- /.modal-dialog -->
+                            </div>
+                            <!-- /.modal -->
+
                             <button type="button" class="btn btn-success btn-xs" title="Valider" data-toggle="modal" data-target="#commentCheck{{ comment.ComId }}"><span class="glyphicon glyphicon-ok"></span>
                             </button>
+
                             <div class="modal fade" id="commentCheck{{ comment.ComId }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
@@ -125,78 +154,104 @@
                                             <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
                                             <a href="{{ path('admin_comment_check', { 'com_id': comment.ComId }) }}" class="btn btn-danger">Confirmer</a>
                                         </div>
-                                    </div><!-- /.modal-content -->
-                                </div><!-- /.modal-dialog -->
-                            </div><!-- /.modal -->
+                                    </div>
+                                    <!-- /.modal-content -->
+                                </div>
+                                <!-- /.modal-dialog -->
+                            </div>
+                            <!-- /.modal -->
+                        </td>
+                    </tr>
+
+                    {% endif %} 
+                
+                {% endfor %} 
+                
+                {% for comment in comments %} 
+                
+                    {% if comment.ComSignal == 0 %}
+                
+                    <tr>
+                        <td><a class="billetTitle" href="{{ path('billet', { 'billet_id': comment.billet.BilletId }) }}">{{ comment.billet.BilletTitle }}</a></td>
+
+                        <td>{{ comment.ComAuthor }}</td>
+
+                        <td>{{ comment.ComContent | truncate(60) }}</td>
+
+                        <td>
+                            <a href="{{ path('admin_comment_edit', { 'com_id': comment.ComId }) }}" class="btn btn-info btn-xs" title="Edit"><span class="glyphicon glyphicon-edit"></span></a>
+
+                            <button type="button" class="btn btn-danger btn-xs" title="Delete" data-toggle="modal" data-target="#commentDialog{{ comment.ComId }}"><span class="glyphicon glyphicon-remove"></span>
+                            </button>
+
+                            <div class="modal fade" id="commentDialog{{ comment.ComId }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                            <h4 class="modal-title" id="myModalLabel">Confirmation needed</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            Voulez-vous supprimer définitivement ce commentaire ?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+                                            <a href="{{ path('admin_comment_delete', { 'com_id': comment.ComId }) }}" class="btn btn-danger">Confirmer</a>
+                                        </div>
+                                    </div>
+                                    <!-- /.modal-content -->
+                                </div>
+                                <!-- /.modal-dialog -->
+                            </div>
+                            <!-- /.modal -->
                         </td>
                     </tr>
                     {% endif %}
+                
                 {% endfor %}
                 
-                {% for comment in comments %}
-                    {% if comment.ComSignal == 0 %}
-                        <tr>
-                            <td><a class="billetTitle" href="{{ path('billet', { 'billet_id': comment.billet.BilletId }) }}">{{ comment.billet.BilletTitle }}</a></td>
-                            <td>{{ comment.ComAuthor }}</td>
-                            <td>{{ comment.ComContent | truncate(60) }}</td>
-                            <td>
-                                <a href="{{ path('admin_comment_edit', { 'com_id': comment.ComId }) }}" class="btn btn-info btn-xs" title="Edit"><span class="glyphicon glyphicon-edit"></span></a>
-                                <button type="button" class="btn btn-danger btn-xs" title="Delete" data-toggle="modal" data-target="#commentDialog{{ comment.ComId }}"><span class="glyphicon glyphicon-remove"></span>
-                                </button>
-                                <div class="modal fade" id="commentDialog{{ comment.ComId }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                                <h4 class="modal-title" id="myModalLabel">Confirmation needed</h4>
-                                            </div>
-                                            <div class="modal-body">
-                                                Voulez-vous supprimer définitivement ce commentaire ?
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
-                                                <a href="{{ path('admin_comment_delete', { 'com_id': comment.ComId }) }}" class="btn btn-danger">Confirmer</a>
-                                            </div>
-                                        </div><!-- /.modal-content -->
-                                    </div><!-- /.modal-dialog -->
-                                </div><!-- /.modal -->
-                            </td>
-                        </tr>
-                    {% endif %}
-                    {% endfor %}
             </table>
         </div>
+        
         {% else %}
+        
         <div class="alert alert-warning">Pas de commentaire trouvé.</div>
+        
         {% endif %}
     </div>
-    
-     <!-- Users admin -->
+
+    <!-- Users admin -->
     <div class="tab-pane fade adminTable" id="users">
+        
         {% if users %}
+        
         <div class="table-responsive">
             <table class="table table-hover table-condensed">
                 <thead>
                     <tr>
                         <th>Identifiant</th>
                         <th>Role</th>
-                        <th></th>  <!-- Actions column -->
+                        <th></th>
+                        <!-- Actions column -->
                     </tr>
                 </thead>
+                
                 {% for user in users %}
+                
                 <tr>
-                    <td>{{ user.username }}</a></td>
+                    <td>{{ user.username }}</a>
+                    </td>
                     <td>
-                        {% if user.role == 'ROLE_ADMIN' %}
-                            Administrateur
-                        {% else %}
-                            Lecteur
+                        {% if user.role == 'ROLE_ADMIN' %} Administrateur 
+                        {% else %} Lecteur 
                         {% endif %}
                     </td>
                     <td>
                         <a href="{{ path('admin_user_edit', { 'id': user.id }) }}" class="btn btn-info btn-xs" title="Edit"><span class="glyphicon glyphicon-edit"></span></a>
+                        
                         <button type="button" class="btn btn-danger btn-xs" title="Delete" data-toggle="modal" data-target="#userDialog{{ user.id }}"><span class="glyphicon glyphicon-remove"></span>
                         </button>
+                        
                         <div class="modal fade" id="userDialog{{ user.id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
@@ -205,26 +260,38 @@
                                         <h4 class="modal-title" id="myModalLabel">Attention !!</h4>
                                     </div>
                                     <div class="modal-body">
-                                        Voulez-vous supprimer définitivement cet utilisateur ? </br> 
+                                        Voulez-vous supprimer définitivement cet utilisateur ? </br>
                                         <em>Les commentaires associés seront également supprimés.</em>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
                                         <a href="{{ path('admin_user_delete', { 'id': user.id }) }}" class="btn btn-danger">Confirmer</a>
                                     </div>
-                                </div><!-- /.modal-content -->
-                            </div><!-- /.modal-dialog -->
-                        </div><!-- /.modal -->
+                                </div>
+                                <!-- /.modal-content -->
+                            </div>
+                            <!-- /.modal-dialog -->
+                        </div>
+                        <!-- /.modal -->
                     </td>
                 </tr>
+
                 {% endfor %}
+            
             </table>
         </div>
+
         {% else %}
-        <div class="alert alert-warning">Pas d'utilisateur trouvé.</div>
-        {% endif %}
-        <a href="{{ path('admin_user_add') }}"><button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Ajouter un utilisateur</button></a>
         
+        <div class="alert alert-warning">Pas d'utilisateur trouvé.</div>
+        
+        {% endif %}
+        
+        <a href="{{ path('admin_user_add') }}">
+            <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Ajouter un utilisateur</button>
+        </a>
+
     </div>
 </div>
+
 {% endblock %}

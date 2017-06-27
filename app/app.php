@@ -2,6 +2,7 @@
 
 use Symfony\Component\Debug\ErrorHandler;
 use Symfony\Component\Debug\ExceptionHandler;
+use Symfony\Component\HttpFoundation\Request;
 
 // Register global error and exception handlers
 ErrorHandler::register();
@@ -72,3 +73,19 @@ $app['dao.user'] = function ($app) {
 $app['dao.comment']->setBilletDAO($app['dao.billet']);
 $app['dao.comment']->setUserDAO($app['dao.user']);
 $app['dao.billet']->setCommentDAO($app['dao.comment']);
+
+
+// Register error handler
+$app->error(function (\Exception $e, Request $request, $code) use ($app) {
+    switch ($code) {
+        case 403:
+            $message = 'Accès refusé.';
+            break;
+        case 404:
+            $message = 'Le lien demandé n\'a pas pu être trouvé.';
+            break;
+        default:
+            $message = "Il y a eu un problème lors du chargement de la page";
+    }
+    return $app['twig']->render('error.html.twig', array('message' => $message));
+});

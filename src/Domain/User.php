@@ -46,9 +46,7 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * @inheritDoc
-     */
+    
     public function getUsername() {
         return $this->username;
     }
@@ -58,9 +56,7 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * @inheritDoc
-     */
+    
     public function getPassword() {
         return $this->password;
     }
@@ -70,9 +66,7 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * @inheritDoc
-     */
+
     public function getSalt()
     {
         return $this->salt;
