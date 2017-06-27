@@ -152,8 +152,18 @@ class CommentDAO extends DAO
      */
     public function deleteAllByBillet($billetId) {
         $this->getDb()->delete('comments', array('billet_id' => $billetId));
+        
     }
     
+    /**
+     * Removes all responses for a comment
+     *
+     * @param $com_id The id of the comment
+     */
+    public function deleteAllResponse($com_id) {
+        $this->getDb()->delete('comments', array('parent_id' => $com_id));
+        
+    }
     
     /**
      * Returns a comment matching the supplied id.

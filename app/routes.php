@@ -201,6 +201,11 @@ $app->match('/admin/comment/{com_id}/edit', function($com_id, Request $request) 
 
 // Remove a comment
 $app->get('/admin/comment/{com_id}/delete', function($com_id, Request $request) use ($app) {
+    
+     // Delete all associated comments
+    $app['dao.comment']->deleteAllResponse($com_id);
+    
+    // Delete the comment
     $app['dao.comment']->delete($com_id);
     $app['session']->getFlashBag()->add('success', 'Le commentaire a été supprimé avec succès.');
     
