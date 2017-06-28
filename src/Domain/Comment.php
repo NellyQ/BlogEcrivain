@@ -24,7 +24,7 @@ class Comment
 
     /** Associated billet.
      *
-     * @var \BlogEcrivain\Domain\Article
+     * @var \BlogEcrivain\Domain\Billet
      */
     private $billet;
     

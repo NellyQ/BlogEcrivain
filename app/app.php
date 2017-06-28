@@ -61,9 +61,6 @@ $app->register(new Silex\Provider\ValidatorServiceProvider());
 // Register services.
 $app['dao.billet'] = new BlogEcrivain\DAO\BilletDAO($app['db']);
 $app['dao.comment'] = new BlogEcrivain\DAO\CommentDAO($app['db']);
-    //$billetDAO->setCommentDAO($app['dao.comment']);
-    //echo "enregistrement billet";
-    //return $billetDAO;
     
 
 $app['dao.user'] = function ($app) {
