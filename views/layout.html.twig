@@ -22,6 +22,10 @@
         });
 
     </script>
+    
+    <link rel="icon" type="image/x-icon" href="{{ asset('/favicon.ico') }}" />
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('/favicon.ico') }}" />
+
 
     <title>Un billet pour l'Alaska</title>
 
@@ -65,7 +69,6 @@
                                 <span class="glyphicon glyphicon-user"></span> Connexion <b class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li><a href="{{ path('login') }}">S'identifier</a></li>
-                                <li><a href="{{ path('register') }}">S'inscrire</a></li>
                             </ul>
                         </li>
                         {% endif %}

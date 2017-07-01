@@ -11,56 +11,57 @@
         
 
     <h3>Répondre</h3>
-  
-        {{ form_start(commentForm) }}
-            
-            <div class="form-group"> 
-                
-                <!-- User authentificated : com_author value is the username  -->
-                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                    {{ form_widget(commentForm.com_author, { 'attr':  {
+        {% if comment.ComLevel <= 1 %}
+            {{ form_start(commentForm) }}
+
+                <div class="form-group"> 
+
+                    <!-- User authentificated : com_author value is the username  -->
+                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                        {{ form_widget(commentForm.com_author, { 'attr':  {
+                            'class': 'form-control',
+                            'placeholder': 'Entrer votre pseudo',
+                            'value' : (app.user.username)
+                        }}) }}
+
+                    <!-- User unknow : com_author value is empty  -->
+                    {% else %}
+                        {{ form_widget(commentForm.com_author, { 'attr':  {
+                            'class': 'form-control',
+                            'placeholder': 'Entrer votre pseudo'
+                        }}) }}
+                    {% endif %}
+
+                    {{ form_errors(commentForm.com_content) }}
+                    {{ form_widget(commentForm.com_content, { 'attr':  {
+                        'rows': '4',
                         'class': 'form-control',
-                        'placeholder': 'Entrer votre pseudo',
-                        'value' : (app.user.username)
+                        'placeholder': 'Entrer votre commentaire'
                     }}) }}
-                
-                <!-- User unknow : com_author value is empty  -->
-                {% else %}
-                    {{ form_widget(commentForm.com_author, { 'attr':  {
+
+                    {{ form_widget(commentForm.parent_id, { 'attr':  {
                         'class': 'form-control',
-                        'placeholder': 'Entrer votre pseudo'
+                        'value' : (comment.ComId)
                     }}) }}
-                {% endif %}
-                
-                {{ form_errors(commentForm.com_content) }}
-                {{ form_widget(commentForm.com_content, { 'attr':  {
-                    'rows': '4',
-                    'class': 'form-control',
-                    'placeholder': 'Entrer votre commentaire'
-                }}) }}
-                
-                {{ form_widget(commentForm.parent_id, { 'attr':  {
-                    'class': 'form-control',
-                    'value' : (comment.ComId)
-                }}) }}
-                
-                {{ form_widget(commentForm.com_level, { 'attr':  {
-                    'class': 'form-control',
-                    'value' : (comment.ComLevel +1)
-                }}) }}
-  
-            </div>
+
+                    {{ form_widget(commentForm.com_level, { 'attr':  {
+                        'class': 'form-control',
+                        'value' : (comment.ComLevel +1)
+                    }}) }}
+
+                </div>
             
-            {% if comment.ComLevel <= 1 %}
                 <div class="form-group">
                     <input type="submit" class="btn btn-primary" value="Répondre" />
                 </div>
-            {% else %}
+            {{ form_end(commentForm) }}
+        
+        {% else %}
                     <div class="alert alert-warning"> Vous ne pouvez pas répondre à ce commentaire</div>
-            {% endif %}
+        {% endif %}
 
 
-        {{ form_end(commentForm) }}
+
         
         {% for flashMessage in app.session.flashbag.get('success') %}
             <div class="alert alert-success">
