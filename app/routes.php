@@ -39,7 +39,8 @@ $app->match('/billet/{billet_id}', function ($billet_id, Request $request) use (
         'billet' => $billet, 
         'comments' => $comments,
         'commentForm' => $commentFormView));
-})->bind('billet');
+})->bind('billet')
+->assert('billet_id', '\d+');
 
 
 //Comment response
@@ -65,21 +66,27 @@ $app->match('/billet/{billet_id}/{com_id}/response', function($billet_id, $com_i
         'billet' => $billet,
         'comment' => $comment,
         'commentForm' => $commentFormView));
-})->bind('response');
-
+})->bind('response')
+->assert('billet_id', '\d+')
+->assert('com_id', '\d+');
 
 
 //Report form
 $app->match('/billet/{billet_id}/{com_id}/report', function($billet_id, $com_id, Request $request) use ($app) {
-    $ComSignal = $app['dao.comment']->setComSignal($com_id);
+   
     $billet = $app['dao.billet']->find($billet_id);
     $comments = $app['dao.comment']->findAll();
+    $comment = $app['dao.comment']->find($com_id);
+
+    $app['dao.comment']->setComSignal($com_id);
     $app['session']->getFlashBag()->add('success', 'Le commentaire a été signalé avec succès.');
     
     return $app['twig']->render('report.html.twig', array(
         'billet' => $billet,
         'comments' => $comments));
-})->bind('report');
+})->bind('report')
+->assert('billet_id', '\d+')
+->assert('com_id', '\d+');
 
 
 // Login form
@@ -90,34 +97,6 @@ $app->get('/login', function(Request $request) use ($app) {
         'last_username' => $app['session']->get('_security.last_username'),
     ));
 })->bind('login');
-
-
-// Register form
-$app->match('/register', function(Request $request) use ($app) {
-    $user = new User();
-    $userForm = $app['form.factory']->create(UserType::class, $user);
-    $userForm->handleRequest($request);
-    if ($userForm->isSubmitted() && $userForm->isValid()) {
-        
-        // generate a random salt value
-        $salt = substr(md5(time()), 0, 23);
-        $user->setSalt($salt);
-        $plainPassword = $user->getPassword();
-        
-        // find the default encoder
-        $encoder = $app['security.encoder.bcrypt'];
-        
-        // compute the encoded password
-        $password = $encoder->encodePassword($plainPassword, $user->getSalt());
-        $user->setPassword($password); 
-        $app['dao.user']->save($user);
-        $app['session']->getFlashBag()->add('success', 'L\'utilisateur a été créé avec succès.');
-    }
-    
-    return $app['twig']->render('register.html.twig', array(
-        'title' => 'New user',
-        'userForm' => $userForm->createView()));
-})->bind('register');
 
 
 // Admin home page
@@ -164,7 +143,8 @@ $app->match('/admin/billet/{billet_id}/edit', function($billet_id, Request $requ
     return $app['twig']->render('billet_form.html.twig', array(
         'title' => 'Edit billet',
         'billetForm' => $billetForm->createView()));
-})->bind('admin_billet_edit');
+})->bind('admin_billet_edit')
+->assert('billet_id', '\d+');
 
 
 // Remove a billet
@@ -179,7 +159,8 @@ $app->get('/admin/billet/{billet_id}/delete', function($billet_id, Request $requ
     
     // Redirect to admin home page
     return $app->redirect($app['url_generator']->generate('admin'));
-})->bind('admin_billet_delete');
+})->bind('admin_billet_delete')
+->assert('billet_id', '\d+');
 
 
 // Edit an existing comment
@@ -196,7 +177,8 @@ $app->match('/admin/comment/{com_id}/edit', function($com_id, Request $request) 
     return $app['twig']->render('comment_form.html.twig', array(
         'title' => 'Editer un commentaire',
         'commentForm' => $commentForm->createView()));
-})->bind('admin_comment_edit');
+})->bind('admin_comment_edit')
+->assert('com_id', '\d+');
 
 
 // Remove a comment
@@ -211,7 +193,8 @@ $app->get('/admin/comment/{com_id}/delete', function($com_id, Request $request) 
     
     // Redirect to admin home page
     return $app->redirect($app['url_generator']->generate('admin'));
-})->bind('admin_comment_delete');
+})->bind('admin_comment_delete')
+->assert('com_id', '\d+');
 
 
 // Check a comment
@@ -221,7 +204,8 @@ $app->get('/admin/comment/{com_id}/check', function($com_id, Request $request) u
     
     // Redirect to admin home page
     return $app->redirect($app['url_generator']->generate('admin'));
-})->bind('admin_comment_check');
+})->bind('admin_comment_check')
+->assert('com_id', '\d+');
 
 
 // Add a user
@@ -274,7 +258,8 @@ $app->match('/admin/user/{id}/edit', function($id, Request $request) use ($app) 
     return $app['twig']->render('user_form.html.twig', array(
         'title' => 'Modifier un utilisateur',
         'userForm' => $userForm->createView()));
-})->bind('admin_user_edit');
+})->bind('admin_user_edit')
+->assert('id', '\d+');
 
 
 // Remove a user
@@ -289,4 +274,5 @@ $app->get('/admin/user/{id}/delete', function($id, Request $request) use ($app) 
     
     // Redirect to admin home page
     return $app->redirect($app['url_generator']->generate('admin'));
-})->bind('admin_user_delete');
+})->bind('admin_user_delete')
+->assert('id', '\d+');
