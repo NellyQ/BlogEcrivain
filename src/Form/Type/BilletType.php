@@ -20,12 +20,17 @@ class BilletType extends AbstractType
                     'constraints' => array(
                         new Assert\NotBlank(), 
                         new Assert\Length(array(
-                        'min' => 5,'max' => 100,
+                        'min' => 3,'max' => 100
                         ))),
             ))
             
             ->add('billet_content', TextareaType::class, array(
-                    'required'    => false,
+                    'required'    => true,
+                    'constraints' => array(
+                        new Assert\NotBlank(), 
+                        new Assert\Length(array(
+                        'min' => 3 ,'max' => 65000
+                        ))),
                     'attr' => array('class' => 'tinymce')                            
             ));
             

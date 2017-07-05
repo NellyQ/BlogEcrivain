@@ -9,7 +9,7 @@ class CommentDAO extends DAO
     /*** @var \BlogEcrivain\DAO\BilletDAO
      */
     private $billetDAO;
-    
+
 
     public function setBilletDAO(BilletDAO $billetDAO) {
         $this->billetDAO = $billetDAO;

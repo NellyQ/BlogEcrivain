@@ -4,10 +4,13 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block content %}
+
 <h2 class="text-center">{{ block('title') }}</h2>
+
 {% for flashMessage in app.session.flashbag.get('success') %}
 <div class="alert alert-success">
     {{ flashMessage }}
+    <p><a class="comReturn" href="{{ path('admin')}}" > Retour aux commentaires </a></p>
 </div>
 {% endfor %}
 

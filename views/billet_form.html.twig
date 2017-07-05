@@ -10,6 +10,7 @@
     {% for flashMessage in app.session.flashbag.get('success') %}
         <div class="alert alert-success">
             {{ flashMessage }}
+            <p><a class="comReturn" href="{{ path('admin')}}" > Retour aux billets </a></p>
         </div>
     {% endfor %}
 

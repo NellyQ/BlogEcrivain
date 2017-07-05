@@ -8,6 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="{{ asset('/lib/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('/css/blogecrivain.css') }}" rel="stylesheet" />
+    <link rel="icon" type="image/x-icon" href="{{ asset('/favicon.ico') }}" />
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('/favicon.ico') }}" />
     <script type="text/javascript" src="{{asset('/lib/tinymce/tinymce.js')}}"></script>
     <script type="text/javascript">
         tinyMCE.init({
@@ -15,18 +17,12 @@
             mode: "exact",
             // class des textareas
             selector: ".tinymce",
-            language_url: '{{ asset(' / lib / tinymce / langs / fr_FR.js ') }}',
+            language_url: '{{ asset('/lib/tinymce/langs/fr_FR.js') }}',
             plugins: 'link, emoticons, image imagetools textcolor fullscreen print',
             toolbar: "undo redo | bold italic underline | forecolor backcolor | alignleft aligncenter alignright alignjustify | indent outdent | image link  | fullscreen imagetools "
-
         });
-
     </script>
     
-    <link rel="icon" type="image/x-icon" href="{{ asset('/favicon.ico') }}" />
-    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('/favicon.ico') }}" />
-
-
     <title>Un billet pour l'Alaska</title>
 
 </head>
